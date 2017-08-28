@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title">
-      <h1>my-admin后台管理系统</h1>
+      <h1>浙江安旅运维管理平台</h1>
     </div>
     <bread-crumb class="bread-crumb"></bread-crumb>
     <el-dropdown class="avatar-container" trigger="click">

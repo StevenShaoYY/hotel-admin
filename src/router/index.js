@@ -17,7 +17,7 @@ export const constantRouterMap = [
   },
   {
     path: '/',
-    name: '首页',
+    name: '信息统计',
     component: layout,
     redirect: '/hello',
     hidden: true,
@@ -32,12 +32,12 @@ export const constantRouterMap = [
 export const asyncRouterMap = [
   {
     path: '/menu1',
-    name: '菜单一',
+    // name: '信息统计',
     component: layout,
     meta: { role: ['a'] },
-    redirect: 'noredirect',
-    children: [{ path: 'index', component: Hello, name: 'hello1' },
-      { path: 'hello2', component: Hello, name: 'hello2' }]
+    noDropdown: true,
+    redirect: '/menu1/index',
+    children: [{ path: 'index', component: Hello, name: '信息统计' }]
   },
   {
     path: '/menu2',
@@ -46,7 +46,45 @@ export const asyncRouterMap = [
     meta: { role: ['a'] },
     noDropdown: true,
     redirect: '/menu2/index',
-    children: [{ path: 'index', component: Hello, name: '菜单二' }]
+    children: [{ path: 'index', component: Hello, name: '旅馆管理' }]
+  },
+  {
+    path: '/menu3',
+    // name: '菜单二',
+    component: layout,
+    meta: { role: ['a'] },
+    noDropdown: true,
+    redirect: '/menu3/index',
+    children: [{ path: 'index', component: Hello, name: '设备管理' }]
+  },
+  {
+    path: '/menu4',
+    // name: '菜单二',
+    component: layout,
+    meta: { role: ['a'] },
+    noDropdown: true,
+    redirect: '/menu4/index',
+    children: [{ path: 'index', component: Hello, name: '用户管理' }]
+  },
+  {
+    path: '/menu5',
+    // name: '菜单二',
+    component: layout,
+    meta: { role: ['a'] },
+    noDropdown: true,
+    redirect: '/menu5/index',
+    children: [{ path: 'index', component: Hello, name: '消息管理' }]
+  },
+  {
+    path: '/menu6',
+    name: '系统管理',
+    component: layout,
+    meta: { role: ['a'] },
+    redirect: 'noredirect',
+    children: [{ path: 'index', component: Hello, name: '管理员管理' },
+      { path: 'roleManage', component: Hello, name: '角色管理' },
+      { path: 'appUpload', component: Hello, name: '应用上传' },
+      { path: 'romUpload', component: Hello, name: 'ROM上传' }]
   },
   { path: '*', redirect: '/404', hidden: true }
 ];
