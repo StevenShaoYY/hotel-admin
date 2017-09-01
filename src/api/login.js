@@ -3,26 +3,26 @@
  */
 import fetch from 'common/js/fetch';
 
-export function login(email, password) {
+export function login(username, password) {
   return fetch({
-    url: 'api/login',
+    url: '/ops/admin/login',
     method: 'post',
     data: {
-      email,
+      username,
       password
     }
   });
 }
 export function getInfo(token) {
   return fetch({
-    url: 'api/user/info',
+    url: 'ops/user/info',
     method: 'get',
     params: { token }
   });
 }
 export function logout(token) {
   return fetch({
-    url: 'api/logout',
+    url: 'ops/admin/logout',
     method: 'post',
     data: {
       token

@@ -41,7 +41,7 @@
     line-height: 30px;
     border-bottom 1px solid #ccc
     margin-left 10px
-    width 20%
+    width 98.5%
     .no-redirect {
       color: #97a8be;
       cursor: text;

@@ -9,12 +9,14 @@
           <router-link v-if="!item.hidden&&item.noDropdown&&item.children.length>0"
                        :to="item.path+'/'+item.children[0].path">
             <el-menu-item :index="item.path+'/'+item.children[0].path" class='submenu-title-noDropdown'>
-              <i class="el-icon-menu"></i><span>{{item.children[0].name}}</span>
+              <!--<i class="el-icon-menu"></i>-->
+              <span>{{item.children[0].name}}</span>
             </el-menu-item>
           </router-link>
           <el-submenu :index="item.name" v-if="!item.noDropdown&&!item.hidden">
             <template slot="title">
-              <i class="el-icon-menu"></i> <span slot="title">{{item.name}}</span>
+              <!--<i class="el-icon-menu"></i> -->
+              <span slot="title">{{item.name}}</span>
             </template>
             <template v-for="child in item.children" v-if='!child.hidden'>
               <router-link class="menu-indent" :to="item.path+'/'+child.path">

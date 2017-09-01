@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 const _import = require('./_import_' + process.env.NODE_ENV)
 
-const Hello = _import('Hello')
+// const Hello = _import('Hello');
+const Dashboard = _import('dashboard/dashboard');
 const Login = _import('login/login');
 const layout = _import('layout/layout');
 const Err404 = _import('404/404');
@@ -19,9 +20,9 @@ export const constantRouterMap = [
     path: '/',
     name: '信息统计',
     component: layout,
-    redirect: '/hello',
+    redirect: '/menu1/index',
     hidden: true,
-    children: [{ path: 'hello', component: Hello }]
+    children: [{ path: 'hello', component: Dashboard }]
   },
   { path: '/404',
     component: Err404,
@@ -37,7 +38,7 @@ export const asyncRouterMap = [
     meta: { role: ['a'] },
     noDropdown: true,
     redirect: '/menu1/index',
-    children: [{ path: 'index', component: Hello, name: '信息统计' }]
+    children: [{ path: 'index', component: Dashboard, name: '信息统计' }]
   },
   {
     path: '/menu2',
@@ -46,7 +47,7 @@ export const asyncRouterMap = [
     meta: { role: ['a'] },
     noDropdown: true,
     redirect: '/menu2/index',
-    children: [{ path: 'index', component: Hello, name: '旅馆管理' }]
+    children: [{ path: 'index', component: Dashboard, name: '旅馆管理' }]
   },
   {
     path: '/menu3',
@@ -55,7 +56,7 @@ export const asyncRouterMap = [
     meta: { role: ['a'] },
     noDropdown: true,
     redirect: '/menu3/index',
-    children: [{ path: 'index', component: Hello, name: '设备管理' }]
+    children: [{ path: 'index', component: Dashboard, name: '设备管理' }]
   },
   {
     path: '/menu4',
@@ -64,7 +65,7 @@ export const asyncRouterMap = [
     meta: { role: ['a'] },
     noDropdown: true,
     redirect: '/menu4/index',
-    children: [{ path: 'index', component: Hello, name: '用户管理' }]
+    children: [{ path: 'index', component: Dashboard, name: '用户管理' }]
   },
   {
     path: '/menu5',
@@ -73,7 +74,7 @@ export const asyncRouterMap = [
     meta: { role: ['a'] },
     noDropdown: true,
     redirect: '/menu5/index',
-    children: [{ path: 'index', component: Hello, name: '消息管理' }]
+    children: [{ path: 'index', component: Dashboard, name: '消息管理' }]
   },
   {
     path: '/menu6',
@@ -81,10 +82,10 @@ export const asyncRouterMap = [
     component: layout,
     meta: { role: ['a'] },
     redirect: 'noredirect',
-    children: [{ path: 'index', component: Hello, name: '管理员管理' },
-      { path: 'roleManage', component: Hello, name: '角色管理' },
-      { path: 'appUpload', component: Hello, name: '应用上传' },
-      { path: 'romUpload', component: Hello, name: 'ROM上传' }]
+    children: [{ path: 'index', component: Dashboard, name: '管理员管理' },
+      { path: 'roleManage', component: Dashboard, name: '角色管理' },
+      { path: 'appUpload', component: Dashboard, name: '应用上传' },
+      { path: 'romUpload', component: Dashboard, name: 'ROM上传' }]
   },
   { path: '*', redirect: '/404', hidden: true }
 ];

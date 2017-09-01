@@ -30,17 +30,19 @@ app.use(bodyParser.urlencoded({            //此项必须在 bodyParser.json 下
 var appData = require('../data.json');
 var apiRoutes = express.Router();
 var login = appData.login;
-apiRoutes.post('/login', function (req, res) {
+apiRoutes.post('/admin/login', function (req, res) {
   //console.log(req.headers['x-token'])
-  if(req.body.email === '123456@qq.com' && req.body.password === '111111'){
+  if(req.body.username === '123456@qq.com' && req.body.password === '111111'){
     res.json({
-      code: 0,
-      token: '12345'
+      code: 1,
+      token: '12345',
+      message: '',
+      result: {}
     });
   } else {
     res.json({
-      code: 1,
-      data: '账号密码错误！'
+      code: 0,
+      message: '账号密码错误！'
     });
   }
 
@@ -49,8 +51,8 @@ apiRoutes.post('/login', function (req, res) {
 apiRoutes.get('/user/info', function (req, res) {
   if(req.query.token === '12345'){
     res.json({
-      code: 0,
-      data: {
+      code: 1,
+      result: {
         role:['a'],
         name: 'sjy',
         avatar: 'default'
@@ -59,22 +61,38 @@ apiRoutes.get('/user/info', function (req, res) {
   } else {
     res.json({
       code: 14,
-      data: {
+      result: {
 
       }
     });
   }
 });
 
-apiRoutes.post('/logout', function (req, res) {
+apiRoutes.post('/admin/logout', function (req, res) {
 
     res.json({
-      code: 0,
-      data: '登出成功！'
+      code: 1,
+      message: '登出成功！'
     });
 });
 
-app.use('/api', apiRoutes);
+apiRoutes.get('/statistics', function (req, res) {
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result: {
+      boxCount : 20,
+      userCount : 30,
+      hotelCount : 40,
+      roomCount : 50,
+      todayCheckin : 2332130,
+      todayVistors : 21231230
+    }
+  });
+});
+
+app.use('/ops', apiRoutes);
 
 var compiler = webpack(webpackConfig)
 

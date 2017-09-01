@@ -36,9 +36,9 @@ service.interceptors.response.use(response => {
       })
     })
     return Promise.reject()
-  } else if (res.code !== 0) {
+  } else if (res.code !== 1) {
     Message({
-      message: res.data,
+      message: res.message,
       type: 'error',
       duration: 5 * 1000
     })
