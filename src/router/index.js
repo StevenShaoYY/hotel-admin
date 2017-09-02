@@ -4,6 +4,8 @@ const _import = require('./_import_' + process.env.NODE_ENV)
 
 // const Hello = _import('Hello');
 const Dashboard = _import('dashboard/dashboard');
+const HotelManage = _import('hotelManage/hotelManage');
+const HotelDetail = _import('hotelDetail/hotelDetail');
 const Login = _import('login/login');
 const layout = _import('layout/layout');
 const Err404 = _import('404/404');
@@ -33,7 +35,6 @@ export const constantRouterMap = [
 export const asyncRouterMap = [
   {
     path: '/menu1',
-    // name: '信息统计',
     component: layout,
     meta: { role: ['a'] },
     noDropdown: true,
@@ -42,12 +43,13 @@ export const asyncRouterMap = [
   },
   {
     path: '/menu2',
-    // name: '菜单二',
+    name: '旅馆管理',
     component: layout,
     meta: { role: ['a'] },
     noDropdown: true,
     redirect: '/menu2/index',
-    children: [{ path: 'index', component: Dashboard, name: '旅馆管理' }]
+    children: [{ path: 'index', component: HotelManage, name: '旅馆管理' },
+      { path: 'hotel_detail', component: HotelDetail, hidden: true, name: '旅馆详情' }]
   },
   {
     path: '/menu3',

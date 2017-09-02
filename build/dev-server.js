@@ -92,6 +92,128 @@ apiRoutes.get('/statistics', function (req, res) {
   });
 });
 
+apiRoutes.get('/hotels', function (req, res) {
+  var obj = {
+    hotelCode: '123123123',
+    hotelName: '如家',
+    hotelAddress: '阿萨黑色短裤',
+    hotelManager: '邵俊彦',
+    contactNumber: '15757115734',
+    totalRooom : '213',
+    totalBed : '213',
+    belongArea : '213',
+    createPerson: '213',
+    createTime: '213',
+    modifyPerson : '213',
+    modifyTime: '213',
+  };
+  var arr = []
+  for(var i =0;i<15;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
+apiRoutes.get('/hotels/:hotelCode', function (req, res) {
+  var obj = {
+    hotelCode: '123123123',
+    hotelName: '如家22',
+    hotelAddress: '阿萨黑色短裤',
+    hotelManager: '邵俊彦',
+    contactNumber: '15757115734',
+    totalRooom : '213',
+    totalBed : '213',
+    belongArea : '213',
+    createPerson: '213',
+    createTime: '213',
+    modifyPerson : '213',
+    modifyTime: '213',
+  };
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result: obj
+  });
+});
+
+apiRoutes.get('/hotels/:hotelCode/users', function (req, res) {
+  var obj = {
+    id: '111',
+    userName: 'shaojunyan',
+    name: '邵俊彦',
+    certificateNumber :'330102199309111813',
+    phoneNumber: '15757115734',
+    type : 1,
+    hotelCode: '121312312',
+    hotelName: 'rujia',
+    createTime: '2016-01-05 21:19:11'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
+apiRoutes.patch('/users/:id/reset', function (req, res) {
+  console.log(1111);
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{}
+  });
+});
+
+apiRoutes.get('/hotels/:hotelCode/rooms', function (req, res) {
+  var obj = {
+    id :1,
+    roomNumber : '201',
+    floor : '1',
+    phoneNumber : '888888888',
+    bedCount : '2',
+    hotelCode : '12312312312'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
 app.use('/ops', apiRoutes);
 
 var compiler = webpack(webpackConfig)
