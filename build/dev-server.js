@@ -214,6 +214,142 @@ apiRoutes.get('/hotels/:hotelCode/rooms', function (req, res) {
     }
   });
 });
+
+apiRoutes.get('/hotels/:hotelCode/devices', function (req, res) {
+  var obj = {
+    id : '1111',
+    boxName : '登记盒子',
+    romVersion : '3.3.33',
+    clientVersion : '3.3.33',
+    serialNumber : 'AL-B20-12345678',
+    hotelCode : '324324',
+    hotelName : '如家',
+    hotelAddress : '奥术大师大所大所大',
+    hotelManager : '阿萨德',
+    contactNumber : '80890898',
+    boxStatus : 2,
+    anlvAppVersion : '3333.33',
+    mdmVersion : '3.3.33',
+    romVersion : '3.3.33',
+    mcuVersion : '3.3.33',
+    ip : '10.22.12.133',
+    mac : '94-65-FF-2A-3C-FF',
+    usb1 : 'USB Composite Device',
+    usb2 : 'USB Composite Device',
+    usb3 : 'USB Composite Device',
+    usb4 : 'USB Composite Device',
+    usb5 : 'USB Composite Device',
+    usb6 : 'USB Composite Device',
+    insideStorageUsed : '24',
+    insideStorageUnused : '24',
+    externalStorageUsed : '1000',
+    externalStorageUnused : '1000',
+    samCode : 'USB Composite Device',
+    registrationTIme : '2017-05-01 12:12:21',
+    startTime : '2017-05-01 12:12:21',
+    reportTime : '2017-05-01 12:12:21'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
+apiRoutes.get('/devices/:id', function (req, res) {
+  var obj = {
+    id : '1111',
+    boxName : '登记盒子',
+    romVersion : '3.3.33',
+    clientVersion : '3.3.33',
+    serialNumber : 'AL-B20-12345678',
+    hotelCode : '324324',
+    hotelName : '如家',
+    hotelAddress : '奥术大师大所大所大',
+    hotelManager : '阿萨德',
+    contactNumber : '80890898',
+    boxStatus : 2,
+    anlvAppVersion : '3333.33',
+    mdmVersion : '3.3.33',
+    romVersion : '3.3.33',
+    mcuVersion : '3.3.33',
+    ip : '10.22.12.133',
+    mac : '94-65-FF-2A-3C-FF',
+    usb1 : 'USB Composite Device',
+    usb2 : 'USB Composite Device',
+    usb3 : 'USB Composite Device',
+    usb4 : 'USB Composite Device',
+    usb5 : 'USB Composite Device',
+    usb6 : 'USB Composite Device',
+    insideStorageUsed : '24',
+    insideStorageUnused : '24',
+    externalStorageUsed : '1000',
+    externalStorageUnused : '1000',
+    samCode : 'USB Composite Device',
+    registrationTIme : '2017-05-01 12:12:21',
+    startTime : '2017-05-01 12:12:21',
+    reportTime : '2017-05-01 12:12:21'
+  };
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:obj
+  });
+});
+
+apiRoutes.patch('/devices/:id/restart', function (req, res) {
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{}
+  });
+});
+apiRoutes.patch('/devices/:id/unbind', function (req, res) {
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{}
+  });
+});
+apiRoutes.patch('/devices/:id/cancel', function (req, res) {
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{}
+  });
+});
+apiRoutes.delete('/devices/:id', function (req, res) {
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{}
+  });
+});
+apiRoutes.get('/devices/:id/log/catch', function (req, res) {
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{}
+  });
+});
+
 app.use('/ops', apiRoutes);
 
 var compiler = webpack(webpackConfig)

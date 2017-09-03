@@ -41,7 +41,11 @@
         <el-tab-pane label="用户信息" name="first">
           <user-detail :hotelCode="hotelCode"></user-detail>
         </el-tab-pane>
-        <el-tab-pane label="设备信息" name="second">配置管理</el-tab-pane>
+        <el-tab-pane label="设备信息" name="second">
+          <box-manage v-show="showDetailFlag===false && showLogFlag===false" :hotelCode="hotelCode" @showDetail="showDetail" @showLog="showLog"></box-manage>
+          <box-detail v-if="showDetailFlag===true" :boxId="detailId" @goBackBoxManage="goback"></box-detail>
+          <box-log v-if="showLogFlag===true" :boxId="detailId" @goBackBoxManage="goback2"></box-log>
+        </el-tab-pane>
         <el-tab-pane label="房间信息" name="third">
           <room-detail :hotelCode="hotelCode"></room-detail>
         </el-tab-pane>
@@ -53,6 +57,9 @@
 <script type="text/ecmascript-6">
   import { getHotelDetail } from 'api/hotelManage'
   import UserDetail from './userDetail.vue'
+  import BoxManage from 'components/boxManage/boxManage.vue'
+  import BoxDetail from 'components/boxManage/boxDetail.vue'
+  import BoxLog from 'components/boxManage/boxLog.vue'
   import RoomDetail from './roomDetail.vue'
   import Hotel from 'common/js/hotel'
   export default {
@@ -65,7 +72,10 @@
         roomList: [],
         hotel: {},
         activeName2: 'first',
-        hotelCode: this.$route.query.hotelCode
+        hotelCode: this.$route.query.hotelCode,
+        showDetailFlag: false,
+        showLogFlag: false,
+        detailId: -1
       }
     },
     methods: {
@@ -76,11 +86,28 @@
       },
       handleClick(tab, event) {
         console.log(tab, event);
+      },
+      showDetail(id) {
+        this.showDetailFlag = id.showDetail;
+        this.detailId = id.id;
+      },
+      showLog(id) {
+        this.showLogFlag = id.showLog;
+        this.detailId = id.id;
+      },
+      goback(flag) {
+        this.showDetailFlag = flag.showDetail;
+      },
+      goback2(flag) {
+        this.showLogFlag = flag.showLog;
       }
     },
     components: {
       UserDetail,
-      RoomDetail
+      RoomDetail,
+      BoxManage,
+      BoxDetail,
+      BoxLog
     }
   };
 </script>

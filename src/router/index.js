@@ -6,6 +6,7 @@ const _import = require('./_import_' + process.env.NODE_ENV)
 const Dashboard = _import('dashboard/dashboard');
 const HotelManage = _import('hotelManage/hotelManage');
 const HotelDetail = _import('hotelDetail/hotelDetail');
+const BoxManageMain = _import('boxManage/boxManageMain');
 const Login = _import('login/login');
 const layout = _import('layout/layout');
 const Err404 = _import('404/404');
@@ -58,7 +59,7 @@ export const asyncRouterMap = [
     meta: { role: ['a'] },
     noDropdown: true,
     redirect: '/menu3/index',
-    children: [{ path: 'index', component: Dashboard, name: '设备管理' }]
+    children: [{ path: 'index', component: BoxManageMain, name: '设备管理' }]
   },
   {
     path: '/menu4',
