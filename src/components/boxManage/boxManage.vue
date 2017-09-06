@@ -3,7 +3,13 @@
       <el-table
         :data="boxList"
         border
-        style="width: 100%">
+        style="width: 100%"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          v-if="isShowSelect"
+          type="selection"
+          width="55">
+        </el-table-column>
         <el-table-column
           prop="serialNumber"
           label="设备序列号"
@@ -125,6 +131,10 @@
       hotelCode: {
         type: String,
         default: ''
+      },
+      isShowSelect: {
+        type: Boolean,
+        default: false
       }
     },
     created() {
@@ -160,6 +170,9 @@
             this.boxList.push(box)
           })
         })
+      },
+      handleSelectionChange(val) {
+        this.$emit('boxManageSelected', val)
       },
       handleSizeChange(val) {
         this.pageSize = val
