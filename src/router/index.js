@@ -7,6 +7,7 @@ const Dashboard = _import('dashboard/dashboard');
 const HotelManage = _import('hotelManage/hotelManage');
 const HotelDetail = _import('hotelDetail/hotelDetail');
 const BoxManageMain = _import('boxManage/boxManageMain');
+const UserManage = _import('userManage/userManage');
 const Login = _import('login/login');
 const layout = _import('layout/layout');
 const Err404 = _import('404/404');
@@ -68,7 +69,7 @@ export const asyncRouterMap = [
     meta: { role: ['a'] },
     noDropdown: true,
     redirect: '/menu4/index',
-    children: [{ path: 'index', component: Dashboard, name: '用户管理' }]
+    children: [{ path: 'index', component: UserManage, name: '用户管理' }]
   },
   {
     path: '/menu5',

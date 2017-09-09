@@ -37,3 +37,10 @@ export function getRoomList(hotelCode, size, offset) {
     method: 'get'
   });
 }
+
+export function searchUserList(queryKey, userType, earliestTime, latestTime, size, offset) {
+  return fetch({
+    url: `/ops/users?queryKey=${queryKey}&userType=${userType}&earliestTime=${earliestTime}&latestTime=${latestTime}&size=${size}&offset=${offset}`,
+    method: 'get'
+  });
+}

@@ -518,6 +518,37 @@ apiRoutes.post('/devices', function (req, res) {
     result: {}
   });
 });
+
+apiRoutes.get('/users/', function (req, res) {
+  var obj = {
+    id: '111',
+    userName: 'shaojunyan',
+    name: '邵俊彦',
+    certificateNumber :'330102199309111813',
+    phoneNumber: '15757115734',
+    type : 1,
+    hotelCode: '121312312',
+    hotelName: 'rujia',
+    createTime: '2016-01-05 21:19:11'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
 app.use('/ops', apiRoutes);
 
 var compiler = webpack(webpackConfig)
