@@ -350,6 +350,174 @@ apiRoutes.get('/devices/:id/log/catch', function (req, res) {
   });
 });
 
+apiRoutes.get('/devices', function (req, res) {
+  var obj = {
+    id : '1111',
+    boxName : '登记盒子',
+    romVersion : '3.3.33',
+    clientVersion : '3.3.33',
+    serialNumber : 'AL-B20-12345678',
+    hotelCode : '324324',
+    hotelName : '如家',
+    hotelAddress : '奥术大师大所大所大',
+    hotelManager : '阿萨德',
+    contactNumber : '80890898',
+    boxStatus : 2,
+    anlvAppVersion : '3333.33',
+    mdmVersion : '3.3.33',
+    romVersion : '3.3.33',
+    mcuVersion : '3.3.33',
+    ip : '10.22.12.133',
+    mac : '94-65-FF-2A-3C-FF',
+    usb1 : 'USB Composite Device',
+    usb2 : 'USB Composite Device',
+    usb3 : 'USB Composite Device',
+    usb4 : 'USB Composite Device',
+    usb5 : 'USB Composite Device',
+    usb6 : 'USB Composite Device',
+    insideStorageUsed : '24',
+    insideStorageUnused : '24',
+    externalStorageUsed : '1000',
+    externalStorageUnused : '1000',
+    samCode : 'USB Composite Device',
+    registrationTIme : '2017-05-01 12:12:21',
+    startTime : '2017-05-01 12:12:21',
+    reportTime : '2017-05-01 12:12:21'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
+apiRoutes.get('/admin/apps', function (req, res) {
+  var obj = {
+    applicationId: '',
+    appName:'adjiads-1122' ,
+    appType: '1',
+    versionName: '3213.3123',
+    updateTips: 'asdjsajd',
+    updateTime:'asdasdsa'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    obj.applicationId = i+1
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
+apiRoutes.post('/devices/application', function (req, res) {
+    res.json({
+      code: 1,
+      token: '12345',
+      message: '',
+      result: {}
+    });
+});
+apiRoutes.get('/admin/firmwares', function (req, res) {
+  var obj = {
+    firmwareId: '',
+    name:'adjiads-1122' ,
+    type: '1',
+    oldVersion: '3213.3123',
+    newVersion: '3213.4444',
+    updateTips: 'asdjsajd',
+    updateTime:'asdasdsa'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    obj.firmwareId = i+1
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
+apiRoutes.post('/devices/firmware', function (req, res) {
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: {}
+  });
+});
+
+apiRoutes.get('/devices/:id/log', function (req, res) {
+  var obj = {
+    id :'1243',
+    fileName :'log12123-1232131',
+    filePath :'/sda/sadasd',
+    updateTime : '2017-09-11'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
+apiRoutes.post('/devices/:id/log/catch', function (req, res) {
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: {}
+  });
+});
+
+apiRoutes.post('/devices', function (req, res) {
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: {}
+  });
+});
 app.use('/ops', apiRoutes);
 
 var compiler = webpack(webpackConfig)

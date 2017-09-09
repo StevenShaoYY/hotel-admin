@@ -8,13 +8,15 @@
       <el-table
         :data="logList"
         border
-        style="width: 100%">
+        style="width: 94%">
         <el-table-column
-          prop="userName"
           label="文件名称">
+          <template scope="scope">
+            <a :href=scope.row.filePath style="color:#20a0ff">{{scope.row.fileName}}</a>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="updateTime"
           label="上传时间"
           width="120">
         </el-table-column>
@@ -34,7 +36,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { catchLog } from 'api/boxManage'
+  import { getLogList, catchLogList } from 'api/boxManage'
+  import Log from 'common/js/log'
   export default {
     props: {
       boxId: {
@@ -58,17 +61,12 @@
         this.$emit('goBackBoxManage', { showLog: false })
       },
       getLogList(pageSize, currentPage) {
-        getUserList(this.hotelCode, pageSize, currentPage).then(response => {
-          this.userList = [];
+        getLogList(this.boxId, pageSize, currentPage).then(response => {
+          this.logList = [];
           this.totalCount = response.data.result.totalCount;
           response.data.result.content.forEach(item => {
-            if (item.type === 1) {
-              item.type = '管理员'
-            } else {
-              item.type = '前台'
-            }
-            const user = new User(item)
-            this.userList.push(user)
+            const log = new Log(item)
+            this.logList.push(log)
           })
         })
       },
@@ -80,7 +78,12 @@
         this.getLogList(this.pageSize, val)
       },
       catchLog() {
-        catchLog(this.boxId)
+        catchLogList(this.boxId).then(() => {
+          this.$message({
+            type: 'info',
+            message: '日志抓取中！'
+          });
+        })
       }
     }
   };
