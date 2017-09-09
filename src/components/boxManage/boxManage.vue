@@ -312,15 +312,7 @@
         })
       },
       appUpdateEnter() {
-        let status = -1;
-        if (this.openDialog.boxStatus === '在线') {
-          status = 1
-        } else if (this.openDialog.boxStatus === '离线') {
-          status = 2
-        } else if (this.openDialog.boxStatus === '已注销') {
-          status = 3
-        }
-        appUpdate([{ id: this.openDialog.id }], [{ status }], this.appType, this.appUpdateSelect).then(() => {
+        appUpdate([{ id: this.openDialog.id }], {}, this.appType, this.appUpdateSelect).then(() => {
           this.dialogFormVisible = false;
           this.$message({
             type: 'info',
@@ -329,15 +321,15 @@
         })
       },
       firmwareUpdateEnter() {
-        let status = -1;
-        if (this.openDialog.boxStatus === '在线') {
-          status = 1
-        } else if (this.openDialog.boxStatus === '离线') {
-          status = 2
-        } else if (this.openDialog.boxStatus === '已注销') {
-          status = 3
-        }
-        firmwareUpdate([{ id: this.openDialog.id }], [{ status }], this.firmwareType, this.firmwareUpdateSelect).then(() => {
+//        let status = -1;
+//        if (this.openDialog.boxStatus === '在线') {
+//          status = 1
+//        } else if (this.openDialog.boxStatus === '离线') {
+//          status = 2
+//        } else if (this.openDialog.boxStatus === '已注销') {
+//          status = 3
+//        }
+        firmwareUpdate([{ id: this.openDialog.id }], {}, this.firmwareType, this.firmwareUpdateSelect).then(() => {
           this.dialogForm2Visible = false;
           this.$message({
             type: 'info',
