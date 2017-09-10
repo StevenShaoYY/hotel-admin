@@ -549,6 +549,68 @@ apiRoutes.get('/users/', function (req, res) {
   });
 });
 
+apiRoutes.get('/messages/', function (req, res) {
+  var obj = {
+    id: '1111',
+    userRange: 'asdadaad',
+    type: 1,
+    important: 1,
+    title: '应用升级通知',
+    content: '应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知',
+    img: '/asdasd',
+    publisher: 'joijij',
+    publishTime: '2017-04-06 11:41:05',
+    effectiveTime: '2017-04-06',
+    transmitState: 1,
+    sendUser: '12',
+    receiveUser: '22',
+    viewUser: '32',
+    readState: 1
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
+apiRoutes.get('/messages/:id', function (req, res) {
+  var obj = {
+    id: '1111',
+    userRange: 'asdadaad',
+    type: 1,
+    important: 1,
+    title: '应用升级通知',
+    content: '应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知应用升级通知',
+    img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505041265006&di=f096e24d88ecbb2d040ba754ac18a8d8&imgtype=0&src=http%3A%2F%2Fimg.qy6.com%2Fbus%2F2009%2F1225%2F1656352.jpg',
+    publisher: 'joijij',
+    publishTime: '2017-04-06 11:41:05',
+    effectiveTime: '2017-04-06',
+    transmitState: 1,
+    sendUser: '12',
+    receiveUser: '22',
+    viewUser: '32',
+    readState: 1
+  };
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:obj
+  });
+});
+
 app.use('/ops', apiRoutes);
 
 var compiler = webpack(webpackConfig)
