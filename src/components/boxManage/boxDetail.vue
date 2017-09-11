@@ -139,6 +139,4 @@
       margin-left 10%
       margin-top 3%
       line-height 35px
-
-
 </style>

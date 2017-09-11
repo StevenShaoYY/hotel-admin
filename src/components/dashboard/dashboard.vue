@@ -88,6 +88,7 @@
           margin-left 4%
           margin-top 15px
           text-align center
+          color #fff
           .tab_font_small
             display inline-block
             width 100%
