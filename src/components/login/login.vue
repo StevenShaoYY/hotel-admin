@@ -45,7 +45,7 @@
       };
       return {
         loginForm: {
-          email: 'admin@wallstreetcn.com',
+          email: '123456@qqs.com',
           password: '111111'
         },
         loginRules: {

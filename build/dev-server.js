@@ -549,7 +549,7 @@ apiRoutes.get('/users/', function (req, res) {
   });
 });
 
-apiRoutes.get('/messages/', function (req, res) {
+apiRoutes.get('/messages', function (req, res) {
   var obj = {
     id: '1111',
     userRange: 'asdadaad',
@@ -608,6 +608,36 @@ apiRoutes.get('/messages/:id', function (req, res) {
     message: '',
     token: '',
     result:obj
+  });
+});
+
+apiRoutes.get('/admin', function (req, res) {
+  var obj = {
+    id: 123,
+    username: 'shaojunyan',
+    name: '邵俊彦',
+    role: 1,
+    module: '1,2,3',
+    status: 1,
+    remark: 'asdada',
+    modifyPerson: 'shao俊彦',
+    updateTime: '2017-01-02 12：21：21'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
   });
 });
 
