@@ -24,9 +24,9 @@ export function updateAdmin({ id, name, role, remark }) {
   });
 }
 
-export function resetPassword(id, password) {
+export function resetPassword(id) {
   return fetch({
-    url: `/ops/admin/${id}/resetPassword?password=${password}`,
+    url: `/ops/admin/${id}/resetPassword`,
     method: 'patch'
   });
 }

@@ -161,22 +161,22 @@
         </el-form>
       </div>
     </el-dialog>
-    <el-dialog title="重置密码" :visible.sync="resetPasswordVisible" :before-close="clearPasswordForm">
-      <div>
-        <el-form ref="passwordForm" :rules="rulesPasswordAdmin" :model="passwordForm" label-width="80px">
-          <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="passwordForm.password" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="确认密码" prop="passwordRepeat">
-            <el-input type="password" v-model="passwordForm.passwordRepeat" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="resetPasswordEnter('passwordForm')">提交</el-button>
-            <el-button @click="resetForm('passwordForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-dialog>
+    <!--<el-dialog title="重置密码" :visible.sync="resetPasswordVisible" :before-close="clearPasswordForm">-->
+      <!--<div>-->
+        <!--<el-form ref="passwordForm" :rules="rulesPasswordAdmin" :model="passwordForm" label-width="80px">-->
+          <!--<el-form-item label="密码" prop="password">-->
+            <!--<el-input type="password" v-model="passwordForm.password" auto-complete="off"></el-input>-->
+          <!--</el-form-item>-->
+          <!--<el-form-item label="确认密码" prop="passwordRepeat">-->
+            <!--<el-input type="password" v-model="passwordForm.passwordRepeat" auto-complete="off"></el-input>-->
+          <!--</el-form-item>-->
+          <!--<el-form-item>-->
+            <!--<el-button type="primary" @click="resetPasswordEnter('passwordForm')">提交</el-button>-->
+            <!--<el-button @click="resetForm('passwordForm')">重置</el-button>-->
+          <!--</el-form-item>-->
+        <!--</el-form>-->
+      <!--</div>-->
+    <!--</el-dialog>-->
   </div>
 </template>
 
@@ -208,25 +208,25 @@
           callback();
         }
       };
-      const validatePass3 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.passwordForm.passwordRepeat !== '') {
-            this.$refs.passwordForm.validateField('passwordRepeat');
-          }
-          callback();
-        }
-      };
-      const validatePass4 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.passwordForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
+//      const validatePass3 = (rule, value, callback) => {
+//        if (value === '') {
+//          callback(new Error('请输入密码'));
+//        } else {
+//          if (this.passwordForm.passwordRepeat !== '') {
+//            this.$refs.passwordForm.validateField('passwordRepeat');
+//          }
+//          callback();
+//        }
+//      };
+//      const validatePass4 = (rule, value, callback) => {
+//        if (value === '') {
+//          callback(new Error('请再次输入密码'));
+//        } else if (value !== this.passwordForm.password) {
+//          callback(new Error('两次输入密码不一致!'));
+//        } else {
+//          callback();
+//        }
+//      };
       return {
         searchBoxInput: '',
         disabledUsername: true,
@@ -237,7 +237,7 @@
         openId: -1,
         addAdminVisible: false,
         updateAdminVisible: false,
-        resetPasswordVisible: false,
+//        resetPasswordVisible: false,
         adminForm: {
           username: '',
           name: '',
@@ -253,10 +253,10 @@
           role: '',
           remark: ''
         },
-        passwordForm: {
-          password: '',
-          passwordRepeat: ''
-        },
+//        passwordForm: {
+//          password: '',
+//          passwordRepeat: ''
+//        },
         rulesAddAdmin: {
           username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
           name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
@@ -271,15 +271,16 @@
         rulesUpdateAdmin: {
           name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
           role: [{ required: true, message: '请选择角色', trigger: 'change' }]
-        },
-        rulesPasswordAdmin: {
-          password: [
-            { validator: validatePass3, trigger: 'blur' }
-          ],
-          passwordRepeat: [
-            { validator: validatePass4, trigger: 'blur' }
-          ]
         }
+//        ,
+//        rulesPasswordAdmin: {
+//          password: [
+//            { validator: validatePass3, trigger: 'blur' }
+//          ],
+//          passwordRepeat: [
+//            { validator: validatePass4, trigger: 'blur' }
+//          ]
+//        }
       }
     },
     methods: {
@@ -346,34 +347,76 @@
           this.$refs.updateForm.resetFields();
         this.updateAdminVisible = false;
       },
+//      resetPassword(index) {
+//        this.openId = index.row.id
+//        this.resetPasswordVisible = true
+//      },
       resetPassword(index) {
         this.openId = index.row.id
-        this.resetPasswordVisible = true
-      },
-      resetPasswordEnter(formName) {
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            resetPassword(this.openId, this.passwordForm.password).then(() => {
-              this.$message({
-                type: 'info',
-                message: '重置密码成功！'
-              });
-              this.resetPasswordVisible = false;
-              this.openId = -1
-              this.getAdmin(this.pageSize, this.currentPage);
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
+        const h = this.$createElement;
+        this.$msgbox({
+          title: '重置密码',
+          message: h('p', null, '确认重置该用户密码吗'),
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
+              resetPassword(this.openId).then(response => {
+                if (response.data.code === 1) {
+                  done();
+                  setTimeout(() => {
+                    instance.confirmButtonLoading = false;
+                  }, 300);
+                }
+              }).catch(() => {
+                done();
+                setTimeout(() => {
+                  instance.confirmButtonLoading = false;
+                }, 300);
+              })
+            } else {
+              done();
+            }
           }
+        }).then(() => {
+          this.openId = -1
+          this.$message({
+            type: 'info',
+            message: '重置密码成功！'
+          });
+          this.getAdmin(this.pageSize, this.currentPage);
+        }).catch(() => {
+          this.openId = -1
+          console.log('cancle')
         });
       },
-      clearPasswordForm() {
-        if (this.$refs.passwordForm)
-          this.$refs.passwordForm.resetFields();
-        this.resetPasswordVisible = false;
-        this.openId = -1
-      },
+//      resetPasswordEnter(formName) {
+//        this.$refs[formName].validate(valid => {
+//          if (valid) {
+//            resetPassword(this.openId, this.passwordForm.password).then(() => {
+//              this.$message({
+//                type: 'info',
+//                message: '重置密码成功！'
+//              });
+//              this.resetPasswordVisible = false;
+//              this.openId = -1
+//              this.getAdmin(this.pageSize, this.currentPage);
+//            })
+//          } else {
+//            console.log('error submit!!');
+//            return false;
+//          }
+//        });
+//      },
+//      clearPasswordForm() {
+//        if (this.$refs.passwordForm)
+//          this.$refs.passwordForm.resetFields();
+//        this.resetPasswordVisible = false;
+//        this.openId = -1
+//      },
       stopAccount(index) {
         this.openId = index.row.id
         const h = this.$createElement;

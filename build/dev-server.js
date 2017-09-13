@@ -726,6 +726,33 @@ apiRoutes.patch('/admin/:id/disable', function (req, res) {
   });
 });
 
+apiRoutes.get('/admin/roles', function (req, res) {
+  var obj = {
+    id: 123,
+    name: '管理员',
+    module: '[{"id":"111","name":"设备管理","pid":"123"},{"id":"111","name":"设备管理","pid":"123"},{"id":"111","name":"设备管理","pid":"123"},{"id":"111","name":"设备管理","pid":"123"},{"id":"111","name":"设备管理","pid":"123"}]',
+    remark: '所有权限',
+    modifyPerson: '管理员1',
+    updateTime: '2017-04-06 11:41:05'
+  };
+  var arr = []
+  for(var i =0;i<10;i++){
+    arr.push(obj);
+  }
+  res.json({
+    code: 1,
+    message: '',
+    token: '',
+    result:{
+      totalPage: 10,
+      totalCount: 100,
+      currentPage: 1,
+      pageSize: 15,
+      content: arr
+    }
+  });
+});
+
 app.use('/ops', apiRoutes);
 
 var compiler = webpack(webpackConfig)
