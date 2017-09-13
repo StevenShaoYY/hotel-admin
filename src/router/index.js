@@ -8,7 +8,8 @@ const HotelManage = _import('hotelManage/hotelManage');
 const HotelDetail = _import('hotelDetail/hotelDetail');
 const BoxManageMain = _import('boxManage/boxManageMain');
 const MessageManage = _import('messageManage/messageManage');
-const MessageDetail = _import('messageManage/messageDetail')
+const MessageDetail = _import('messageManage/messageDetail');
+const AdminManage = _import('adminManage/adminManage')
 const UserManage = _import('userManage/userManage');
 const Login = _import('login/login');
 const layout = _import('layout/layout');
@@ -89,7 +90,7 @@ export const asyncRouterMap = [
     component: layout,
     meta: { role: ['a'] },
     redirect: 'noredirect',
-    children: [{ path: 'index', component: Dashboard, name: '管理员管理' },
+    children: [{ path: 'index', component: AdminManage, name: '管理员管理' },
       { path: 'roleManage', component: Dashboard, name: '角色管理' },
       { path: 'appUpload', component: Dashboard, name: '应用上传' },
       { path: 'romUpload', component: Dashboard, name: 'ROM上传' }]
