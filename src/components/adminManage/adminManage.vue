@@ -71,13 +71,21 @@
               重置密码
             </el-button>
             <el-button
+              v-if="scope.row.status === '启用'"
               @click.native.prevent="stopAccount(scope)"
               type="text"
               size="small">
               禁用
             </el-button>
             <el-button
-              @click.native.prevent="delete(scope)"
+              v-if="scope.row.status === '禁用'"
+              @click.native.prevent="startAccount(scope)"
+              type="text"
+              size="small">
+              启用
+            </el-button>
+            <el-button
+              @click.native.prevent="deleteAccount(scope)"
               type="text"
               size="small">
               删除
@@ -97,41 +105,400 @@
         </el-pagination>
       </div>
     </div>
+    <el-dialog title="添加管理员" :visible.sync="addAdminVisible" :before-close="clearForm">
+      <div>
+        <el-form ref="adminForm" :rules="rulesAddAdmin" :model="adminForm" label-width="80px">
+          <el-form-item label="用户名" prop="username">
+            <el-input v-model="adminForm.username"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="adminForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="adminForm.password" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码" prop="passwordRepeat">
+            <el-input type="password" v-model="adminForm.passwordRepeat" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="选择角色" prop="role">
+            <el-select v-model="adminForm.role" placeholder="请选择角色">
+              <el-option label="管理员" value="1"></el-option>
+              <el-option label="客服" value="2"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="备注" prop="remark">
+            <el-input v-model="adminForm.remark"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="adminAddEnter('adminForm')">提交</el-button>
+            <el-button @click="resetForm('adminForm')">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
+    <el-dialog title="编辑管理员" :visible.sync="updateAdminVisible" :before-close="clearUpdateForm">
+      <div>
+        <el-form ref="updateForm" :rules="rulesUpdateAdmin" :model="updateForm" label-width="80px">
+          <el-form-item label="用户名" prop="username">
+            <el-input :disabled="disabledUsername" v-model="updateForm.username"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="updateForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="选择角色" prop="role">
+            <el-select v-model="updateForm.role" placeholder="请选择角色">
+              <el-option label="管理员" value="1"></el-option>
+              <el-option label="客服" value="2"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="备注" prop="remark">
+            <el-input v-model="updateForm.remark"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="adminUpdateEnter('updateForm')">提交</el-button>
+            <el-button @click="resetForm('updateForm')">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
+    <el-dialog title="重置密码" :visible.sync="resetPasswordVisible" :before-close="clearPasswordForm">
+      <div>
+        <el-form ref="passwordForm" :rules="rulesPasswordAdmin" :model="passwordForm" label-width="80px">
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="passwordForm.password" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码" prop="passwordRepeat">
+            <el-input type="password" v-model="passwordForm.passwordRepeat" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="resetPasswordEnter('passwordForm')">提交</el-button>
+            <el-button @click="resetForm('passwordForm')">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import AdminManager from 'common/js/adminManager'
-  import { searchAdminList } from 'api/adminManage'
+  import { searchAdminList, addAdmin, updateAdmin, resetPassword, startAccount, stopAccount, deleteAccount } from 'api/adminManage'
   export default {
     props: {},
     created() {
       this.getAdmin(this.pageSize, this.currentPage);
     },
     data() {
+      const validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.adminForm.passwordRepeat !== '') {
+            this.$refs.adminForm.validateField('passwordRepeat');
+          }
+          callback();
+        }
+      };
+      const validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.adminForm.password) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
+      const validatePass3 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.passwordForm.passwordRepeat !== '') {
+            this.$refs.passwordForm.validateField('passwordRepeat');
+          }
+          callback();
+        }
+      };
+      const validatePass4 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.passwordForm.password) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
       return {
         searchBoxInput: '',
+        disabledUsername: true,
         adminList: [],
         totalCount: 0,
         pageSize: 10,
-        currentPage: 1
+        currentPage: 1,
+        openId: -1,
+        addAdminVisible: false,
+        updateAdminVisible: false,
+        resetPasswordVisible: false,
+        adminForm: {
+          username: '',
+          name: '',
+          role: '',
+          password: '',
+          passwordRepeat: '',
+          remark: ''
+        },
+        updateForm: {
+          id: '',
+          userName: '',
+          name: '',
+          role: '',
+          remark: ''
+        },
+        passwordForm: {
+          password: '',
+          passwordRepeat: ''
+        },
+        rulesAddAdmin: {
+          username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+          name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+          role: [{ required: true, message: '请选择角色', trigger: 'change' }],
+          password: [
+            { validator: validatePass, trigger: 'blur' }
+          ],
+          passwordRepeat: [
+            { validator: validatePass2, trigger: 'blur' }
+          ]
+        },
+        rulesUpdateAdmin: {
+          name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+          role: [{ required: true, message: '请选择角色', trigger: 'change' }]
+        },
+        rulesPasswordAdmin: {
+          password: [
+            { validator: validatePass3, trigger: 'blur' }
+          ],
+          passwordRepeat: [
+            { validator: validatePass4, trigger: 'blur' }
+          ]
+        }
       }
     },
     methods: {
       addAdminPerson() {
-        console.log(111)
+        this.addAdminVisible = true
+      },
+      adminAddEnter(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            addAdmin(this.adminForm).then(() => {
+              this.$message({
+                type: 'info',
+                message: '添加管理员成功！'
+              });
+              this.addAdminVisible = false;
+              this.getAdmin(this.pageSize, this.currentPage);
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
+      clearForm() {
+        if (this.$refs.adminForm)
+          this.$refs.adminForm.resetFields();
+        this.addAdminVisible = false;
       },
       updateAdmin(index) {
-        console.log(index)
+        this.updateForm.username = index.row.username;
+        this.updateForm.id = index.row.id;
+        this.updateForm.name = index.row.name;
+        this.updateForm.role = index.row.role;
+        this.updateForm.remark = index.row.remark;
+        if (this.updateForm.role === '管理员')
+          this.updateForm.role = '1'
+        else
+          this.updateForm.role = '2'
+        console.log(this.updateForm)
+        this.updateAdminVisible = true
+      },
+      adminUpdateEnter(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            updateAdmin(this.updateForm).then(() => {
+              this.$message({
+                type: 'info',
+                message: '修改管理员成功！'
+              });
+              this.updateAdminVisible = false;
+              this.getAdmin(this.pageSize, this.currentPage);
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      clearUpdateForm() {
+        if (this.$refs.updateForm)
+          this.$refs.updateForm.resetFields();
+        this.updateAdminVisible = false;
       },
       resetPassword(index) {
-        console.log(index)
+        this.openId = index.row.id
+        this.resetPasswordVisible = true
+      },
+      resetPasswordEnter(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            resetPassword(this.openId, this.passwordForm.password).then(() => {
+              this.$message({
+                type: 'info',
+                message: '重置密码成功！'
+              });
+              this.resetPasswordVisible = false;
+              this.openId = -1
+              this.getAdmin(this.pageSize, this.currentPage);
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      clearPasswordForm() {
+        if (this.$refs.passwordForm)
+          this.$refs.passwordForm.resetFields();
+        this.resetPasswordVisible = false;
+        this.openId = -1
       },
       stopAccount(index) {
-        console.log(index)
+        this.openId = index.row.id
+        const h = this.$createElement;
+        this.$msgbox({
+          title: '禁用',
+          message: h('p', null, '禁用该管理员账号后，管理员将无法登录使用该平台功能，确认禁用吗？'),
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
+              stopAccount(this.openId).then(response => {
+                if (response.data.code === 1) {
+                  done();
+                  setTimeout(() => {
+                    instance.confirmButtonLoading = false;
+                  }, 300);
+                }
+              }).catch(() => {
+                done();
+                setTimeout(() => {
+                  instance.confirmButtonLoading = false;
+                }, 300);
+              })
+            } else {
+              done();
+            }
+          }
+        }).then(() => {
+          this.openId = -1
+          this.$message({
+            type: 'info',
+            message: '禁用成功！'
+          });
+          this.getAdmin(this.pageSize, this.currentPage);
+        }).catch(() => {
+          this.openId = -1
+          console.log('cancle')
+        });
       },
-      delete(index) {
-        console.log(index)
+      startAccount(index) {
+        this.openId = index.row.id
+        const h = this.$createElement;
+        this.$msgbox({
+          title: '启用',
+          message: h('p', null, '启用该管理员账号后，管理员将可以登录使用该平台功能，确认启用吗？'),
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
+              startAccount(this.openId).then(response => {
+                if (response.data.code === 1) {
+                  done();
+                  setTimeout(() => {
+                    instance.confirmButtonLoading = false;
+                  }, 300);
+                }
+              }).catch(() => {
+                done();
+                setTimeout(() => {
+                  instance.confirmButtonLoading = false;
+                }, 300);
+              })
+            } else {
+              done();
+            }
+          }
+        }).then(() => {
+          this.openId = -1
+          this.$message({
+            type: 'info',
+            message: '启用成功！'
+          });
+          this.getAdmin(this.pageSize, this.currentPage);
+        }).catch(() => {
+          this.openId = -1
+          console.log('cancle')
+        });
+      },
+      deleteAccount(index) {
+        this.openId = index.row.id
+        const h = this.$createElement;
+        this.$msgbox({
+          title: '删除管理员',
+          message: h('p', null, '删除该管理员后，管理员将无法登录使用该平台功能，确认删除吗？'),
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
+              deleteAccount(this.openId).then(response => {
+                if (response.data.code === 1) {
+                  done();
+                  setTimeout(() => {
+                    instance.confirmButtonLoading = false;
+                  }, 300);
+                }
+              }).catch(() => {
+                done();
+                setTimeout(() => {
+                  instance.confirmButtonLoading = false;
+                }, 300);
+              })
+            } else {
+              done();
+            }
+          }
+        }).then(() => {
+          this.openId = -1
+          this.$message({
+            type: 'info',
+            message: '删除成功！'
+          });
+          this.getAdmin(this.pageSize, this.currentPage);
+        }).catch(() => {
+          this.openId = -1
+          console.log('cancle')
+        });
       },
       searchMessage() {
         this.currentPage = 1

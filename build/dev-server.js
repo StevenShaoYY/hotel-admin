@@ -68,7 +68,7 @@ apiRoutes.get('/user/info', function (req, res) {
   }
 });
 
-apiRoutes.post('/admin/logout', function (req, res) {
+apiRoutes.get('/admin/logout', function (req, res) {
 
     res.json({
       code: 1,
@@ -638,6 +638,91 @@ apiRoutes.get('/admin', function (req, res) {
       pageSize: 15,
       content: arr
     }
+  });
+});
+
+apiRoutes.put('/admin', function (req, res) {
+  var obj = {
+    id: 123,
+    username: 'shaojunyan',
+    name: '邵俊彦',
+    role: 1,
+    module: '1,2,3',
+    status: 1,
+    remark: 'asdada',
+    modifyPerson: 'shao俊彦',
+    updateTime: '2017-01-02 12：21：21'
+  };
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: obj
+  });
+});
+
+apiRoutes.patch('/admin/:id', function (req, res) {
+  var obj = {
+    id: 123,
+    username: 'shaojunyan',
+    name: '邵俊彦',
+    role: 1,
+    module: '1,2,3',
+    status: 1,
+    remark: 'asdada',
+    modifyPerson: 'shao俊彦',
+    updateTime: '2017-01-02 12：21：21'
+  };
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: obj
+  });
+});
+
+apiRoutes.patch('/admin/modifyPassword', function (req, res) {
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: {}
+  });
+});
+
+apiRoutes.patch('/admin/:id/resetPassword', function (req, res) {
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: {}
+  });
+});
+
+apiRoutes.delete('/admin/:id', function (req, res) {
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: {}
+  });
+});
+
+apiRoutes.patch('/admin/:id/enable', function (req, res) {
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: {}
+  });
+});
+
+apiRoutes.patch('/admin/:id/disable', function (req, res) {
+  res.json({
+    code: 1,
+    token: '12345',
+    message: '',
+    result: {}
   });
 });
 

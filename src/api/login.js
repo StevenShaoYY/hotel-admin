@@ -20,13 +20,10 @@ export function getInfo(token) {
     params: { token }
   });
 }
-export function logout(token) {
+export function logout() {
   return fetch({
     url: 'ops/admin/logout',
-    method: 'post',
-    data: {
-      token
-    }
+    method: 'get'
   });
 }
 

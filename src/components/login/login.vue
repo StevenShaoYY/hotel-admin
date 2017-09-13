@@ -17,7 +17,7 @@
           登录
         </el-button>
       </el-form-item>
-      <div class='tips'>admin账号为:123456@qq.com 密码:111111</div>
+      <div class='tips' style="color:#fff">admin账号为:123456@qq.com 密码:111111</div>
       <!--<div class='tips'>editor账号:editor@wallstreetcn.com 密码随便填</div>-->
     </el-form>
   </div>

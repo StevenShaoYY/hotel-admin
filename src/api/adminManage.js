@@ -9,3 +9,52 @@ export function searchAdminList(queryKey, size, offset) {
     method: 'get'
   });
 }
+
+export function addAdmin({ username, name, role, password, remark }) {
+  return fetch({
+    url: `/ops/admin?username=${username}&name=${name}&role=${role}&password=${password}&remark=${remark}`,
+    method: 'put'
+  });
+}
+
+export function updateAdmin({ id, name, role, remark }) {
+  return fetch({
+    url: `/ops/admin/${id}?name=${name}&role=${role}&remark=${remark}`,
+    method: 'patch'
+  });
+}
+
+export function resetPassword(id, password) {
+  return fetch({
+    url: `/ops/admin/${id}/resetPassword?password=${password}`,
+    method: 'patch'
+  });
+}
+
+export function resetAdminPassword(oldPassword, newPassword) {
+  return fetch({
+    url: `/ops/admin/modifyPassword?oldPassword=${oldPassword}&newPassword=${newPassword}`,
+    method: 'patch'
+  });
+}
+
+export function startAccount(id) {
+  return fetch({
+    url: `/ops/admin/${id}/enable`,
+    method: 'patch'
+  });
+}
+
+export function stopAccount(id) {
+  return fetch({
+    url: `/ops/admin/${id}/disable`,
+    method: 'patch'
+  });
+}
+
+export function deleteAccount(id) {
+  return fetch({
+    url: `/ops/admin/${id}`,
+    method: 'delete'
+  });
+}
