@@ -3,8 +3,8 @@
  */
 import Cookies from 'js-cookie';
 import * as types from '../mutation-types';
-import { login, getInfo, logout } from '@/api/login';
-
+import { login, logout } from '@/api/login';
+// getInfo
 const user = {
   state: {
     token: Cookies.get('Admin-Token'),
@@ -71,17 +71,29 @@ const user = {
         });
       });
     },
-    GetInfo({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
-          const data = response.data.result;
-          commit('SET_ROLES', data.role);
-          commit('SET_NAME', data.name);
-          commit('SET_AVATAR', data.avatar);
-          resolve(response);
-        }).catch(error => {
-          reject(error);
-        });
+    GetInfo({ commit }) {
+      return new Promise(resolve => {
+        // getInfo(state.token).then(response => {
+          //   const data = response.data.result;
+          //   commit('SET_ROLES', data.role);
+          //   commit('SET_NAME', data.name);
+          //   commit('SET_AVATAR', data.avatar);
+          //   resolve(response);
+          // }).catch(error => {
+          //   reject(error);
+          // });
+        const data = {
+          role: ['a'],
+          name: 'sjy',
+          avatar: 'default'
+        }
+        const response = {};
+        response.data = {};
+        response.data.result = data;
+        commit('SET_ROLES', data.role);
+        commit('SET_NAME', data.name);
+        commit('SET_AVATAR', data.avatar);
+        resolve(response);
       });
     }
   },

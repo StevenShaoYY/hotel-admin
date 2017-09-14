@@ -12,15 +12,27 @@ export function searchAdminList(queryKey, size, offset) {
 
 export function addAdmin({ username, name, role, password, remark }) {
   return fetch({
-    url: `/ops/admin?username=${username}&name=${name}&role=${role}&password=${password}&remark=${remark}`,
-    method: 'put'
+    url: '/ops/admin',
+    method: 'put',
+    data: {
+      username,
+      name,
+      role,
+      password,
+      remark
+    }
   });
 }
 
 export function updateAdmin({ id, name, role, remark }) {
   return fetch({
-    url: `/ops/admin/${id}?name=${name}&role=${role}&remark=${remark}`,
-    method: 'patch'
+    url: `/ops/admin/${id}`,
+    method: 'patch',
+    data: {
+      name,
+      role,
+      remark
+    }
   });
 }
 
@@ -33,8 +45,12 @@ export function resetPassword(id) {
 
 export function resetAdminPassword(oldPassword, newPassword) {
   return fetch({
-    url: `/ops/admin/modifyPassword?oldPassword=${oldPassword}&newPassword=${newPassword}`,
-    method: 'patch'
+    url: '/ops/admin/modifyPassword',
+    method: 'patch',
+    data: {
+      oldPassword,
+      newPassword
+    }
   });
 }
 

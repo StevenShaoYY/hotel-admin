@@ -24,7 +24,14 @@ service.interceptors.request.use(config => {
 //  添加一个响应拦截器
 service.interceptors.response.use(response => {
   const res = response.data
-  if (res.code === 14 || res.code === 12) {
+  if (res.code === '404') {
+    Message({
+      message: '对不起，没有找到资源！',
+      type: 'error',
+      duration: 5 * 1000
+    })
+  }
+  if (res.code === '14' || res.code === '12') {
     // 14 token 过期,12 其他用户登录
     MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
       confirmButtonText: '重新登录',
@@ -36,7 +43,7 @@ service.interceptors.response.use(response => {
       })
     })
     return Promise.reject()
-  } else if (res.code !== 1) {
+  } else if (res.code !== '1') {
     Message({
       message: res.message,
       type: 'error',

@@ -28,7 +28,7 @@
             <i></i><span class="tab_font_small">今日入住登记数</span><span class="tab_font_big">{{dashboardData.todayCheckin}}</span>
           </div>
           <div class="header_tab">
-            <i></i><span class="tab_font_small">今日访客登记数</span><span class="tab_font_big">{{dashboardData.todayVistors}}</span>
+            <i></i><span class="tab_font_small">今日访客登记数</span><span class="tab_font_big">{{dashboardData.todayVisitors}}</span>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
           hotelCount: null,
           roomCount: null,
           todayCheckin: null,
-          todayVistors: null
+          todayVisitors: null
         }
       }
     },

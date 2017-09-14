@@ -34,7 +34,7 @@ apiRoutes.post('/admin/login', function (req, res) {
   //console.log(req.headers['x-token'])
   if(req.body.username === '123456@qq.com' && req.body.password === '111111'){
     res.json({
-      code: 1,
+      code: '1',
       token: '12345',
       message: '',
       result: {}
@@ -51,7 +51,7 @@ apiRoutes.post('/admin/login', function (req, res) {
 apiRoutes.get('/user/info', function (req, res) {
   if(req.query.token === '12345'){
     res.json({
-      code: 1,
+      code: '1',
       result: {
         role:['a'],
         name: 'sjy',
@@ -60,7 +60,7 @@ apiRoutes.get('/user/info', function (req, res) {
     });
   } else {
     res.json({
-      code: 14,
+      code: '14',
       result: {
 
       }
@@ -71,14 +71,14 @@ apiRoutes.get('/user/info', function (req, res) {
 apiRoutes.get('/admin/logout', function (req, res) {
 
     res.json({
-      code: 1,
+      code: '1',
       message: '登出成功！'
     });
 });
 
 apiRoutes.get('/statistics', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result: {
@@ -87,7 +87,7 @@ apiRoutes.get('/statistics', function (req, res) {
       hotelCount : 40,
       roomCount : 50,
       todayCheckin : 2332130,
-      todayVistors : 21231230
+      todayVisitors : 21231230
     }
   });
 });
@@ -112,7 +112,7 @@ apiRoutes.get('/hotels', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -141,7 +141,7 @@ apiRoutes.get('/hotels/:hotelCode', function (req, res) {
     modifyTime: '213',
   };
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result: obj
@@ -165,7 +165,7 @@ apiRoutes.get('/hotels/:hotelCode/users', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -181,7 +181,7 @@ apiRoutes.get('/hotels/:hotelCode/users', function (req, res) {
 apiRoutes.patch('/users/:id/reset', function (req, res) {
   console.log(1111);
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{}
@@ -202,7 +202,7 @@ apiRoutes.get('/hotels/:hotelCode/rooms', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -254,7 +254,7 @@ apiRoutes.get('/hotels/:hotelCode/devices', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -302,7 +302,7 @@ apiRoutes.get('/devices/:id', function (req, res) {
     reportTime : '2017-05-01 12:12:21'
   };
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:obj
@@ -311,7 +311,7 @@ apiRoutes.get('/devices/:id', function (req, res) {
 
 apiRoutes.patch('/devices/:id/restart', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{}
@@ -319,7 +319,7 @@ apiRoutes.patch('/devices/:id/restart', function (req, res) {
 });
 apiRoutes.patch('/devices/:id/unbind', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{}
@@ -327,7 +327,7 @@ apiRoutes.patch('/devices/:id/unbind', function (req, res) {
 });
 apiRoutes.patch('/devices/:id/cancel', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{}
@@ -335,7 +335,7 @@ apiRoutes.patch('/devices/:id/cancel', function (req, res) {
 });
 apiRoutes.delete('/devices/:id', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{}
@@ -343,7 +343,7 @@ apiRoutes.delete('/devices/:id', function (req, res) {
 });
 apiRoutes.get('/devices/:id/log/catch', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{}
@@ -389,7 +389,7 @@ apiRoutes.get('/devices', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -403,21 +403,21 @@ apiRoutes.get('/devices', function (req, res) {
 });
 
 apiRoutes.get('/admin/apps', function (req, res) {
-  var obj = {
-    applicationId: '',
-    appName:'adjiads-1122' ,
-    appType: '1',
-    versionName: '3213.3123',
-    updateTips: 'asdjsajd',
-    updateTime:'asdasdsa'
-  };
   var arr = []
   for(var i =0;i<10;i++){
+    var obj = {
+      applicationId: '',
+      appName:'adjiads-1122' ,
+      appType: '1',
+      versionName: '3213.3123',
+      updateTips: 'asdjsajd',
+      updateTime:'asdasdsa'
+    };
     obj.applicationId = i+1
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -432,7 +432,7 @@ apiRoutes.get('/admin/apps', function (req, res) {
 
 apiRoutes.post('/devices/application', function (req, res) {
     res.json({
-      code: 1,
+      code: '1',
       token: '12345',
       message: '',
       result: {}
@@ -454,7 +454,7 @@ apiRoutes.get('/admin/firmwares', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -469,7 +469,7 @@ apiRoutes.get('/admin/firmwares', function (req, res) {
 
 apiRoutes.post('/devices/firmware', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: {}
@@ -488,7 +488,7 @@ apiRoutes.get('/devices/:id/log', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -503,7 +503,7 @@ apiRoutes.get('/devices/:id/log', function (req, res) {
 
 apiRoutes.post('/devices/:id/log/catch', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: {}
@@ -512,7 +512,7 @@ apiRoutes.post('/devices/:id/log/catch', function (req, res) {
 
 apiRoutes.post('/devices', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: {}
@@ -536,7 +536,7 @@ apiRoutes.get('/users/', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -572,7 +572,7 @@ apiRoutes.get('/messages', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -604,7 +604,7 @@ apiRoutes.get('/messages/:id', function (req, res) {
     readState: 1
   };
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:obj
@@ -628,7 +628,7 @@ apiRoutes.get('/admin', function (req, res) {
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{
@@ -654,7 +654,7 @@ apiRoutes.put('/admin', function (req, res) {
     updateTime: '2017-01-02 12：21：21'
   };
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: obj
@@ -674,7 +674,7 @@ apiRoutes.patch('/admin/:id', function (req, res) {
     updateTime: '2017-01-02 12：21：21'
   };
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: obj
@@ -683,7 +683,7 @@ apiRoutes.patch('/admin/:id', function (req, res) {
 
 apiRoutes.patch('/admin/modifyPassword', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: {}
@@ -692,7 +692,7 @@ apiRoutes.patch('/admin/modifyPassword', function (req, res) {
 
 apiRoutes.patch('/admin/:id/resetPassword', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: {}
@@ -701,7 +701,7 @@ apiRoutes.patch('/admin/:id/resetPassword', function (req, res) {
 
 apiRoutes.delete('/admin/:id', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: {}
@@ -710,7 +710,7 @@ apiRoutes.delete('/admin/:id', function (req, res) {
 
 apiRoutes.patch('/admin/:id/enable', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: {}
@@ -719,7 +719,7 @@ apiRoutes.patch('/admin/:id/enable', function (req, res) {
 
 apiRoutes.patch('/admin/:id/disable', function (req, res) {
   res.json({
-    code: 1,
+    code: '1',
     token: '12345',
     message: '',
     result: {}
@@ -727,20 +727,23 @@ apiRoutes.patch('/admin/:id/disable', function (req, res) {
 });
 
 apiRoutes.get('/admin/roles', function (req, res) {
-  var obj = {
-    id: 123,
-    name: '管理员',
-    module: '[{"id":"111","name":"设备管理","pid":"123"},{"id":"111","name":"设备管理","pid":"123"},{"id":"111","name":"设备管理","pid":"123"},{"id":"111","name":"设备管理","pid":"123"},{"id":"111","name":"设备管理","pid":"123"}]',
-    remark: '所有权限',
-    modifyPerson: '管理员1',
-    updateTime: '2017-04-06 11:41:05'
-  };
+
   var arr = []
-  for(var i =0;i<10;i++){
+  for(var i = 0; i<10; i++){
+    var obj = {
+      id: 1,
+      name: '管理员',
+      module: '[{"id":"1","name":"DEVICE:QUERY","pid":"123"},{"id":"2","name":"DEVICE:IMPORT","pid":"123"},{"id":"3","name":"DEVICE:CANCEL","pid":"123"},{"id":"4","name":"MESSAGE:QUERY","pid":"123"},{"id":"5","name":"MESSAGE:DETAIL","pid":"123"}]',
+      remark: '所有权限',
+      modifyPerson: '管理员1',
+      updateTime: '2017-04-06 11:41:05'
+    };
+    obj.id = i+1
+    obj.name = obj.name+i+1
     arr.push(obj);
   }
   res.json({
-    code: 1,
+    code: '1',
     message: '',
     token: '',
     result:{

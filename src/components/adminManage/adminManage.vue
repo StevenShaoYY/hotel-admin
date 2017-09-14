@@ -122,8 +122,8 @@
           </el-form-item>
           <el-form-item label="选择角色" prop="role">
             <el-select v-model="adminForm.role" placeholder="请选择角色">
-              <el-option label="管理员" value="1"></el-option>
-              <el-option label="客服" value="2"></el-option>
+              <el-option v-for="item in roleList" :label="item.name" :value="parseInt(item.id)" :key="parseInt(item.id)"></el-option>
+              <!--<el-option label="客服" value="2"></el-option>-->
             </el-select>
           </el-form-item>
           <el-form-item label="备注" prop="remark">
@@ -147,8 +147,7 @@
           </el-form-item>
           <el-form-item label="选择角色" prop="role">
             <el-select v-model="updateForm.role" placeholder="请选择角色">
-              <el-option label="管理员" value="1"></el-option>
-              <el-option label="客服" value="2"></el-option>
+              <el-option v-for="item in roleList" :label="item.name" :value="item.id" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="备注" prop="remark">
@@ -183,6 +182,8 @@
 <script type="text/ecmascript-6">
   import AdminManager from 'common/js/adminManager'
   import { searchAdminList, addAdmin, updateAdmin, resetPassword, startAccount, stopAccount, deleteAccount } from 'api/adminManage'
+  import Role from 'common/js/role'
+  import { searchRoleList } from 'api/roleManage'
   export default {
     props: {},
     created() {
@@ -230,6 +231,7 @@
       return {
         searchBoxInput: '',
         disabledUsername: true,
+        roleList: [],
         adminList: [],
         totalCount: 0,
         pageSize: 10,
@@ -241,7 +243,7 @@
         adminForm: {
           username: '',
           name: '',
-          role: '',
+          role: 1,
           password: '',
           passwordRepeat: '',
           remark: ''
@@ -250,7 +252,7 @@
           id: '',
           userName: '',
           name: '',
-          role: '',
+          role: 1,
           remark: ''
         },
 //        passwordForm: {
@@ -260,7 +262,8 @@
         rulesAddAdmin: {
           username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
           name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-          role: [{ required: true, message: '请选择角色', trigger: 'change' }],
+//          role: [{ required: true, message: '请选择角色', trigger: 'change' },
+//            { type: 'string', message: '角色必须为字符串' }],
           password: [
             { validator: validatePass, trigger: 'blur' }
           ],
@@ -269,8 +272,8 @@
           ]
         },
         rulesUpdateAdmin: {
-          name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-          role: [{ required: true, message: '请选择角色', trigger: 'change' }]
+          name: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
+//          role: [{ required: true, message: '请选择角色', trigger: 'change' }]
         }
 //        ,
 //        rulesPasswordAdmin: {
@@ -318,11 +321,15 @@
         this.updateForm.name = index.row.name;
         this.updateForm.role = index.row.role;
         this.updateForm.remark = index.row.remark;
-        if (this.updateForm.role === '管理员')
-          this.updateForm.role = '1'
-        else
-          this.updateForm.role = '2'
-        console.log(this.updateForm)
+//        if (this.updateForm.role === '管理员')
+//          this.updateForm.role = '1'
+//        else
+//          this.updateForm.role = '2'
+        this.roleList.forEach(item => {
+          if (this.updateForm.role === item.name) {
+            this.updateForm.role = parseInt(item.id)
+          }
+        })
         this.updateAdminVisible = true
       },
       adminUpdateEnter(formName) {
@@ -367,6 +374,10 @@
               resetPassword(this.openId).then(response => {
                 if (response.data.code === 1) {
                   done();
+                  this.$message({
+                    type: 'info',
+                    message: '重置密码成功！'
+                  });
                   setTimeout(() => {
                     instance.confirmButtonLoading = false;
                   }, 300);
@@ -383,10 +394,6 @@
           }
         }).then(() => {
           this.openId = -1
-          this.$message({
-            type: 'info',
-            message: '重置密码成功！'
-          });
           this.getAdmin(this.pageSize, this.currentPage);
         }).catch(() => {
           this.openId = -1
@@ -433,6 +440,10 @@
               stopAccount(this.openId).then(response => {
                 if (response.data.code === 1) {
                   done();
+                  this.$message({
+                    type: 'info',
+                    message: '禁用成功！'
+                  });
                   setTimeout(() => {
                     instance.confirmButtonLoading = false;
                   }, 300);
@@ -449,10 +460,6 @@
           }
         }).then(() => {
           this.openId = -1
-          this.$message({
-            type: 'info',
-            message: '禁用成功！'
-          });
           this.getAdmin(this.pageSize, this.currentPage);
         }).catch(() => {
           this.openId = -1
@@ -475,6 +482,10 @@
               startAccount(this.openId).then(response => {
                 if (response.data.code === 1) {
                   done();
+                  this.$message({
+                    type: 'info',
+                    message: '删除成功！'
+                  });
                   setTimeout(() => {
                     instance.confirmButtonLoading = false;
                   }, 300);
@@ -491,10 +502,6 @@
           }
         }).then(() => {
           this.openId = -1
-          this.$message({
-            type: 'info',
-            message: '启用成功！'
-          });
           this.getAdmin(this.pageSize, this.currentPage);
         }).catch(() => {
           this.openId = -1
@@ -517,6 +524,10 @@
               deleteAccount(this.openId).then(response => {
                 if (response.data.code === 1) {
                   done();
+                  this.$message({
+                    type: 'info',
+                    message: '删除成功！'
+                  });
                   setTimeout(() => {
                     instance.confirmButtonLoading = false;
                   }, 300);
@@ -533,10 +544,6 @@
           }
         }).then(() => {
           this.openId = -1
-          this.$message({
-            type: 'info',
-            message: '删除成功！'
-          });
           this.getAdmin(this.pageSize, this.currentPage);
         }).catch(() => {
           this.openId = -1
@@ -548,30 +555,43 @@
         this.getAdmin(this.pageSize, 1)
       },
       getAdmin(pageSize, currentPage) {
-        searchAdminList(this.searchBoxInput
-          , pageSize
-          , currentPage).then(response => {
-            this.adminList = [];
-            this.totalCount = response.data.result.totalCount;
-            response.data.result.content.forEach(item => {
-              let statusType = ''
-              if (item.role === 1) {
-                item.role = '管理员'
-              } else {
-                item.role = '客服'
-              }
-              if (item.status === 1) {
-                item.status = '启用'
-                statusType = 'success'
-              } else {
-                item.status = '禁用'
-                statusType = 'danger'
-              }
-              const admin = new AdminManager(item)
-              admin.statusType = statusType;
-              this.adminList.push(admin)
-            })
+        searchRoleList('', 99999, 1).then(response => {
+          this.roleList = [];
+          response.data.result.content.forEach(item => {
+            item.module = JSON.parse(item.module);
+            const role = new Role(item)
+            this.roleList.push(role)
           })
+          return searchAdminList(this.searchBoxInput
+            , pageSize
+            , currentPage)
+        }).then(response => {
+          this.adminList = [];
+          this.totalCount = response.data.result.totalCount;
+          response.data.result.content.forEach(item => {
+            let statusType = ''
+//            if (item.role === 1) {
+//              item.role = '管理员'
+//            } else {
+//              item.role = '客服'
+//            }
+            this.roleList.forEach(item2 => {
+              if (item.role === item2.id) {
+                item.role = item2.name
+              }
+            })
+            if (item.status === 1) {
+              item.status = '启用'
+              statusType = 'success'
+            } else {
+              item.status = '禁用'
+              statusType = 'danger'
+            }
+            const admin = new AdminManager(item)
+            admin.statusType = statusType;
+            this.adminList.push(admin)
+          })
+        })
       },
       handleSizeChange(val) {
         this.pageSize = val
