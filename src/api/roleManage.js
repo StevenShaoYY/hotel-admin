@@ -5,7 +5,7 @@ import fetch from 'common/js/fetch';
 
 export function searchRoleList(queryKey, size, offset) {
   return fetch({
-    url: `/ops/admin/roles?queryKey=${queryKey}&size=${size}&offset=${offset}`,
+    url: `/ops/admin/roles?queryKey=${queryKey}&size=${size}&currentPage=${offset}`,
     method: 'get'
   });
 }
@@ -30,7 +30,7 @@ export function addRole(name, module, remark) {
     method: 'post',
     data: {
       name,
-      module,
+      moduleIds: module,
       remark
     }
   });
@@ -49,7 +49,7 @@ export function updateRole(id, name, module, remark) {
     method: 'patch',
     data: {
       name,
-      module,
+      moduleIds: module,
       remark
     }
   });

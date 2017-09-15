@@ -5,32 +5,32 @@ import fetch from 'common/js/fetch';
 
 export function searchAdminList(queryKey, size, offset) {
   return fetch({
-    url: `/ops/admin?queryKey=${queryKey}&size=${size}&offset=${offset}`,
+    url: `/ops/admin?queryKey=${queryKey}&size=${size}&currentPage=${offset}`,
     method: 'get'
   });
 }
 
-export function addAdmin({ username, name, role, password, remark }) {
+export function addAdmin({ username, name, roles, password, remark }) {
   return fetch({
     url: '/ops/admin',
     method: 'put',
     data: {
       username,
       name,
-      role,
+      roleIds: roles,
       password,
       remark
     }
   });
 }
 
-export function updateAdmin({ id, name, role, remark }) {
+export function updateAdmin({ id, name, roles, remark }) {
   return fetch({
     url: `/ops/admin/${id}`,
     method: 'patch',
     data: {
       name,
-      role,
+      roleIds: roles,
       remark
     }
   });

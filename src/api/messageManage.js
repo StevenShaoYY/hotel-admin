@@ -5,7 +5,7 @@ import fetch from 'common/js/fetch';
 
 export function searchMessageList(queryKey, messageType, earliestTime, latestTime, size, offset) {
   return fetch({
-    url: `/ops/messages?queryKey=${queryKey}&messageType=${messageType}&earliestTime=${earliestTime}&latestTime=${latestTime}&size=${size}&offset=${offset}`,
+    url: `/ops/messages?queryKey=${queryKey}&messageType=${messageType}&earliestTime=${earliestTime}&latestTime=${latestTime}&size=${size}&currentPage=${offset}`,
     method: 'get'
   });
 }

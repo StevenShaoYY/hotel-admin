@@ -11,6 +11,7 @@ const user = {
     name: '',
     avatar: '',
     roles: []
+    // rolesBeforeUse: []
   },
   mutations: {
     [types.SET_TOKEN](state, token) {
@@ -25,6 +26,12 @@ const user = {
     [types.SET_ROLES](state, roles) {
       state.roles = roles
     }
+    // [types.SET_ROLESBEFOREUSE](state, rolesBeforeUse) {
+    //   state.rolesBeforeUse = rolesBeforeUse
+    // }
+    // [types.SET_ROLESBEFOREUSE](state) {
+    //   state.rolesBeforeUse = ['a']
+    // }
   },
   actions: {
     FedLogOut({ commit }) {
@@ -63,14 +70,25 @@ const user = {
       return new Promise((resolve, reject) => {
         login(email, userInfo.password).then(response => {
           const data = response.data
+          // const userObj = response.data.result
           Cookies.set('Admin-Token', data.token);
           commit('SET_TOKEN', data.token);
+          // commit('SET_ROLESBEFOREUSE', userObj.module);
+          // commit('SET_NAME', userObj.name);
+          // commit('SET_AVATAR', 'default');
+          // resolve(userObj.module);
           resolve();
         }).catch(error => {
           reject(error);
         });
       });
     },
+    // SetInfo({ commit }) {
+    //   return new Promise(resolve => {
+    //     commit('SET_ROLES', data.role);
+    //     resolve(response);
+    //   });
+    // },
     GetInfo({ commit }) {
       return new Promise(resolve => {
         // getInfo(state.token).then(response => {
@@ -102,6 +120,7 @@ const user = {
     avatar: state => state.avatar,
     name: state => state.name,
     roles: state => state.roles
+    // rolesBeforeUse: state => state.rolesBeforeUse
   }
 }
 export default user;

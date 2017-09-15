@@ -59,6 +59,11 @@
         loading: false
       }
     },
+//    computed: {
+//      ...mapGetters([
+//        'addRouters'
+//      ])
+//    },
     methods: {
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
@@ -67,9 +72,13 @@
             this.Login(this.loginForm).then(() => {
               this.loading = false;
               this.$router.push({ path: '/' });
+//              return this.GenerateRoutes({ roles })
             }).catch(() => {
               this.loading = false;
-            });
+            })
+//              .then(() => {
+//              this.$router.addRoutes(this.addRouters);
+//            });
           } else {
             console.log('error submit!!');
             return false;
@@ -78,6 +87,7 @@
       },
       ...mapActions([
         'Login'
+//        'GenerateRoutes'
       ])
     }
   };

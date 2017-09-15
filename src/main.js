@@ -23,6 +23,12 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
     } else {
       if (store.getters.roles.length === 0) {
+      // && store.getters.rolesBeforeUse.length > 0
+        // store.commit('SET_ROLES')
+        // store.dispatch('GenerateRoutes', store.getters.roles).then(() => {
+        //   router.addRoutes(store.getters.addRouters);
+        //   next({ ...to });
+        // })
         store.dispatch('GetInfo').then(res => {
           const roles = res.data.result.role;
           store.dispatch('GenerateRoutes', { roles }).then(() => {

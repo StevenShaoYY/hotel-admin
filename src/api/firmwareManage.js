@@ -5,7 +5,7 @@ import fetch from 'common/js/fetch';
 
 export function firmwareSearch(queryKey, type, size, offset) {
   return fetch({
-    url: `/ops/admin/firmwares?queryKey=${queryKey}&type=${type}&size=${size}&offset=${offset}`,
+    url: `/ops/admin/firmwares?queryKey=${queryKey}&type=${type}&size=${size}&currentPage=${offset}`,
     method: 'get'
   });
 }

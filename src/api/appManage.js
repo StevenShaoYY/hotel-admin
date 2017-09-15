@@ -5,7 +5,7 @@ import fetch from 'common/js/fetch';
 
 export function appSearch(queryKey, appType, size, offset) {
   return fetch({
-    url: `/ops/admin/apps?queryKey=${queryKey}&appType=${appType}&size=${size}&offset=${offset}`,
+    url: `/ops/admin/apps?queryKey=${queryKey}&appType=${appType}&size=${size}&currentPage=${offset}`,
     method: 'get'
   });
 }

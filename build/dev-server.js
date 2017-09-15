@@ -32,12 +32,23 @@ var apiRoutes = express.Router();
 var login = appData.login;
 apiRoutes.post('/admin/login', function (req, res) {
   //console.log(req.headers['x-token'])
+  var obj = {
+    id: 123,
+    username: 'shaojunyan',
+    name: '邵俊彦',
+    roles: [1, 2],
+    module: ['a'],
+    status: 1,
+    remark: 'asdada',
+    modifyPerson: 'shao俊彦',
+    updateTime: '2017-01-02 12：21：21'
+  };
   if(req.body.username === '123456@qq.com' && req.body.password === '111111'){
     res.json({
       code: '1',
       token: '12345',
       message: '',
-      result: {}
+      result: obj
     });
   } else {
     res.json({
@@ -616,8 +627,8 @@ apiRoutes.get('/admin', function (req, res) {
     id: 123,
     username: 'shaojunyan',
     name: '邵俊彦',
-    role: 1,
-    module: '1,2,3',
+    roles: [1, 2],
+    module: [1, 2, 3],
     status: 1,
     remark: 'asdada',
     modifyPerson: 'shao俊彦',
@@ -646,8 +657,8 @@ apiRoutes.put('/admin', function (req, res) {
     id: 123,
     username: 'shaojunyan',
     name: '邵俊彦',
-    role: 1,
-    module: '1,2,3',
+    roles: [1, 2],
+    module: [1, 2, 3],
     status: 1,
     remark: 'asdada',
     modifyPerson: 'shao俊彦',
@@ -666,8 +677,8 @@ apiRoutes.patch('/admin/:id', function (req, res) {
     id: 123,
     username: 'shaojunyan',
     name: '邵俊彦',
-    role: 1,
-    module: '1,2,3',
+    roles: [1, 2],
+    module: [1, 2, 3],
     status: 1,
     remark: 'asdada',
     modifyPerson: 'shao俊彦',

@@ -29,7 +29,7 @@
           prop="name">
         </el-table-column>
         <el-table-column
-          prop="role"
+          prop="rolesStr"
           label="用户角色"
           width="100">
         </el-table-column>
@@ -120,8 +120,8 @@
           <el-form-item label="确认密码" prop="passwordRepeat">
             <el-input type="password" v-model="adminForm.passwordRepeat" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="选择角色" prop="role">
-            <el-select v-model="adminForm.role" placeholder="请选择角色">
+          <el-form-item label="选择角色" prop="roles">
+            <el-select v-model="adminForm.roles" multiple placeholder="请选择角色">
               <el-option v-for="item in roleList" :label="item.name" :value="parseInt(item.id)" :key="parseInt(item.id)"></el-option>
               <!--<el-option label="客服" value="2"></el-option>-->
             </el-select>
@@ -145,8 +145,8 @@
           <el-form-item label="姓名" prop="name">
             <el-input v-model="updateForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="选择角色" prop="role">
-            <el-select v-model="updateForm.role" placeholder="请选择角色">
+          <el-form-item label="选择角色" prop="roles">
+            <el-select v-model="updateForm.roles" multiple  placeholder="请选择角色">
               <el-option v-for="item in roleList" :label="item.name" :value="item.id" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
@@ -243,7 +243,7 @@
         adminForm: {
           username: '',
           name: '',
-          role: 1,
+          roles: [1],
           password: '',
           passwordRepeat: '',
           remark: ''
@@ -252,7 +252,7 @@
           id: '',
           userName: '',
           name: '',
-          role: 1,
+          roles: [1],
           remark: ''
         },
 //        passwordForm: {
@@ -319,17 +319,17 @@
         this.updateForm.username = index.row.username;
         this.updateForm.id = index.row.id;
         this.updateForm.name = index.row.name;
-        this.updateForm.role = index.row.role;
+        this.updateForm.roles = index.row.roles;
         this.updateForm.remark = index.row.remark;
 //        if (this.updateForm.role === '管理员')
 //          this.updateForm.role = '1'
 //        else
 //          this.updateForm.role = '2'
-        this.roleList.forEach(item => {
-          if (this.updateForm.role === item.name) {
-            this.updateForm.role = parseInt(item.id)
-          }
-        })
+//        this.roleList.forEach(item => {
+//          if (this.updateForm.role === item.name) {
+//            this.updateForm.role = parseInt(item.id)
+//          }
+//        })
         this.updateAdminVisible = true
       },
       adminUpdateEnter(formName) {
@@ -575,10 +575,13 @@
 //            } else {
 //              item.role = '客服'
 //            }
+            const rolesNameList = []
             this.roleList.forEach(item2 => {
-              if (item.role === item2.id) {
-                item.role = item2.name
-              }
+              item.roles.forEach(item3 => {
+                if (item3 === item2.id) {
+                  rolesNameList.push(item2.name)
+                }
+              })
             })
             if (item.status === 1) {
               item.status = '启用'
@@ -588,6 +591,8 @@
               statusType = 'danger'
             }
             const admin = new AdminManager(item)
+            admin.rolesStr = ''
+            admin.rolesStr = rolesNameList.join(',')
             admin.statusType = statusType;
             this.adminList.push(admin)
           })

@@ -5,7 +5,7 @@ export default class AdminManager {
   constructor({ id,
                 username,
                 name,
-                role,
+                roles,
                 module,
                 status,
                 remark,
@@ -14,7 +14,7 @@ export default class AdminManager {
     this.id = id
     this.username = username
     this.name = name
-    this.role = role
+    this.roles = roles
     this.module = module
     this.status = status
     this.remark = remark

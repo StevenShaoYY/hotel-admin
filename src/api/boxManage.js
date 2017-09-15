@@ -5,7 +5,7 @@ import fetch from 'common/js/fetch';
 
 export function getBoxList(hotelCode, size, offset) {
   return fetch({
-    url: `/ops/hotels/${hotelCode}/devices?size=${size}&offset=${offset}`,
+    url: `/ops/hotels/${hotelCode}/devices?size=${size}&currentPage=${offset}`,
     method: 'get'
   });
 }
@@ -55,14 +55,14 @@ export function catchLog(id) {
 
 export function boxSearch(queryKey, deviceType, deviceStatus, earliestTime, latestTime, size, offset) {
   return fetch({
-    url: `/ops/devices/?queryKey=${queryKey}&deviceType=${deviceType}&deviceStatus=${deviceStatus}&earliestTime=${earliestTime}&latestTime=${latestTime}&size=${size}&offset=${offset}`,
+    url: `/ops/devices/?queryKey=${queryKey}&deviceType=${deviceType}&deviceStatus=${deviceStatus}&earliestTime=${earliestTime}&latestTime=${latestTime}&size=${size}&currentPage=${offset}`,
     method: 'get'
   });
 }
 
 export function getLogList(id, size, offset) {
   return fetch({
-    url: `/ops/devices/${id}/log?size=${size}&offset=${offset}`,
+    url: `/ops/devices/${id}/log?size=${size}&currentPage=${offset}`,
     method: 'get'
   });
 }
