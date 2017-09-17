@@ -3,9 +3,9 @@
  */
 import fetch from 'common/js/fetch';
 
-export function appSearch(queryKey, appType, size, offset) {
+export function appSearch(queryKey, appType) {
   return fetch({
-    url: `/ops/admin/apps?queryKey=${queryKey}&appType=${appType}&size=${size}&currentPage=${offset}`,
+    url: `/ops/admin/apps?queryKey=${queryKey}&appType=${appType}`,
     method: 'get'
   });
 }
@@ -20,5 +20,35 @@ export function appUpdate(deviceList, condition, type, applicationId) {
       type,
       applicationId
     }
+  });
+}
+
+export function appUpload(appType, appFile, updateTips) {
+  return fetch({
+    url: '/ops/admin/apps',
+    method: 'post',
+    data: {
+      appType,
+      appFile,
+      updateTips
+    }
+  });
+}
+
+export function updateApp(id, appFile, updateTips) {
+  return fetch({
+    url: `/ops/admin/apps/${id}`,
+    method: 'patch',
+    data: {
+      appFile,
+      updateTips
+    }
+  });
+}
+
+export function deleteApp(id) {
+  return fetch({
+    url: `/ops/admin/apps/${id}`,
+    method: 'delete'
   });
 }

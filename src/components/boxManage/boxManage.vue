@@ -231,7 +231,7 @@
     watch: {
       appType(newVal, old) {
         if (newVal !== old) {
-          appSearch('', newVal, 99999, 1).then(response => {
+          appSearch('', newVal).then(response => {
             response.data.result.content.forEach(item => {
               const app = new App(item);
               this.appList.push(app)
@@ -241,7 +241,7 @@
       },
       firmwareType(newVal, old) {
         if (newVal !== old) {
-          firmwareSearch('', this.firmwareType, 99999, 1).then(response => {
+          firmwareSearch('', this.firmwareType).then(response => {
             response.data.result.content.forEach(item => {
               const firmware = new Firmware(item);
               this.firmwareList.push(firmware)
@@ -292,7 +292,7 @@
         }
       },
       appUpdate(index) {
-        appSearch('', this.appType, 99999, 1).then(response => {
+        appSearch('', this.appType).then(response => {
           response.data.result.content.forEach(item => {
             const app = new App(item);
             this.appList.push(app)
@@ -302,7 +302,7 @@
         })
       },
       firmwareUpdate(index) {
-        firmwareSearch('', this.firmwareType, 99999, 1).then(response => {
+        firmwareSearch('', this.firmwareType).then(response => {
           response.data.result.content.forEach(item => {
             const firmware = new Firmware(item);
             this.firmwareList.push(firmware)

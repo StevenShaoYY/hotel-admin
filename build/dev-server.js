@@ -419,10 +419,10 @@ apiRoutes.get('/admin/apps', function (req, res) {
     var obj = {
       applicationId: '',
       appName:'adjiads-1122' ,
-      appType: '1',
+      appType: 2,
       versionName: '3213.3123',
       updateTips: 'asdjsajd',
-      updateTime:'asdasdsa'
+      updateTime:'2017-02-01'
     };
     obj.applicationId = i+1
     arr.push(obj);
@@ -521,14 +521,14 @@ apiRoutes.post('/devices/:id/log/catch', function (req, res) {
   });
 });
 
-apiRoutes.post('/devices', function (req, res) {
-  res.json({
-    code: '1',
-    token: '12345',
-    message: '',
-    result: {}
-  });
-});
+// apiRoutes.post('/devices', function (req, res) {
+//   res.json({
+//     code: '1',
+//     token: '12345',
+//     message: '',
+//     result: {}
+//   });
+// });
 
 apiRoutes.get('/users/', function (req, res) {
   var obj = {

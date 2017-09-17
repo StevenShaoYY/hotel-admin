@@ -3,9 +3,9 @@
  */
 import fetch from 'common/js/fetch';
 
-export function firmwareSearch(queryKey, type, size, offset) {
+export function firmwareSearch(queryKey, type) {
   return fetch({
-    url: `/ops/admin/firmwares?queryKey=${queryKey}&type=${type}&size=${size}&currentPage=${offset}`,
+    url: `/ops/admin/firmwares?queryKey=${queryKey}&type=${type}`,
     method: 'get'
   });
 }
@@ -20,5 +20,39 @@ export function firmwareUpdate(deviceList, condition, type, firmwareId) {
       type,
       firmwareId
     }
+  });
+}
+
+export function firmwareUpload(type, file, oldVersion, newVersion, updateTips) {
+  return fetch({
+    url: '/ops/admin/firmwares',
+    method: 'post',
+    data: {
+      type,
+      file,
+      oldVersion,
+      newVersion,
+      updateTips
+    }
+  });
+}
+
+export function updateFirmware(id, file,  oldVersion, newVersion, updateTips) {
+  return fetch({
+    url: `/ops/admin/firmwares/${id}`,
+    method: 'patch',
+    data: {
+      file,
+      oldVersion,
+      newVersion,
+      updateTips
+    }
+  });
+}
+
+export function deleteirmware(id) {
+  return fetch({
+    url: `/ops/admin/firmwares/${id}`,
+    method: 'delete'
   });
 }
