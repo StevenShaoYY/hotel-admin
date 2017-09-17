@@ -37,7 +37,7 @@ export function firmwareUpload(type, file, oldVersion, newVersion, updateTips) {
   });
 }
 
-export function updateFirmware(id, file,  oldVersion, newVersion, updateTips) {
+export function updateFirmware(id, file, oldVersion, newVersion, updateTips) {
   return fetch({
     url: `/ops/admin/firmwares/${id}`,
     method: 'patch',
@@ -50,7 +50,7 @@ export function updateFirmware(id, file,  oldVersion, newVersion, updateTips) {
   });
 }
 
-export function deleteirmware(id) {
+export function deleteFirmware(id) {
   return fetch({
     url: `/ops/admin/firmwares/${id}`,
     method: 'delete'

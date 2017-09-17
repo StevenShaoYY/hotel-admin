@@ -13,6 +13,7 @@ const AdminManage = _import('adminManage/adminManage');
 const RoleManage = _import('roleManage/roleManage');
 const UserManage = _import('userManage/userManage');
 const AppManage = _import('appManage/appManage');
+const FirmwareManage = _import('firmwareManage/firmwareManage');
 const Login = _import('login/login');
 const layout = _import('layout/layout');
 const Err404 = _import('404/404');
@@ -95,7 +96,7 @@ export const asyncRouterMap = [
     children: [{ path: 'index', component: AdminManage, name: '管理员管理' },
       { path: 'roleManage', component: RoleManage, name: '角色管理' },
       { path: 'appUpload', component: AppManage, name: '应用上传' },
-      { path: 'romUpload', component: Dashboard, name: 'ROM上传' }]
+      { path: 'romUpload', component: FirmwareManage, name: 'ROM上传' }]
   },
   { path: '*', redirect: '/404', hidden: true }
 ];

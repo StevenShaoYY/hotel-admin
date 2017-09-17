@@ -3,7 +3,7 @@
     <div class="search_header">
       <el-row :gutter="10">
         <el-col :span="6">
-          <el-select v-model="appTypeSelect" placeholder="按应用类型筛选" @change="changeAppType">
+          <el-select v-model="appTypeSelect" placeholder="按固件类型筛选" @change="changeAppType">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -23,16 +23,20 @@
         border
         style="width: 100%">
         <el-table-column
-          prop="appName"
+          prop="name"
           label="文件名">
         </el-table-column>
         <el-table-column
-          label="应用类型"
-          prop="appTypeStr">
+          label="固件类型"
+          prop="typeStr">
         </el-table-column>
         <el-table-column
-          prop="versionName"
-          label="版本号">
+          prop="oldVersion"
+          label="旧版本号">
+        </el-table-column>
+        <el-table-column
+          prop="newVersion"
+          label="新版本号">
         </el-table-column>
         <el-table-column
           prop="updateTips"
@@ -63,35 +67,41 @@
         </el-table-column>
       </el-table>
       <!--<div class="pagenation_wrapper">-->
-        <!--<el-pagination-->
-          <!--@size-change="handleSizeChange"-->
-          <!--@current-change="handleCurrentChange"-->
-          <!--:current-page="currentPage"-->
-          <!--:page-sizes="[10, 15, 30, 50]"-->
-          <!--:page-size="pageSize"-->
-          <!--layout="total, sizes, prev, pager, next, jumper"-->
-          <!--:total="totalCount">-->
-        <!--</el-pagination>-->
+      <!--<el-pagination-->
+      <!--@size-change="handleSizeChange"-->
+      <!--@current-change="handleCurrentChange"-->
+      <!--:current-page="currentPage"-->
+      <!--:page-sizes="[10, 15, 30, 50]"-->
+      <!--:page-size="pageSize"-->
+      <!--layout="total, sizes, prev, pager, next, jumper"-->
+      <!--:total="totalCount">-->
+      <!--</el-pagination>-->
       <!--</div>-->
     </div>
-    <el-dialog title="上传新应用" :visible.sync="uploadNewVisible" :before-close="clearForm">
+    <el-dialog title="上传新固件" :visible.sync="uploadNewVisible" :before-close="clearForm">
       <div>
         <el-form ref="addAppForm" :rules="rulesAddApp" :model="addAppForm" label-width="80px">
           <el-form-item label="应用类型" prop="appType">
-            <el-radio class="radio" v-model="addAppForm.appType" label="1">登记客户端</el-radio>
-            <el-radio class="radio" v-model="addAppForm.appType" label="2">MDM客户端</el-radio>
+            <el-radio class="radio" v-model="addAppForm.type" label="1">ROM</el-radio>
+            <el-radio class="radio" v-model="addAppForm.type" label="2">MCU</el-radio>
           </el-form-item>
-          <el-form-item label="选择文件" prop="appFile">
+          <el-form-item label="选择文件" prop="file">
             <el-upload
               class="upload-demo"
               ref="upload"
               action="www.baidu.com"
-              :file-list="addAppForm.appFile"
+              :file-list="addAppForm.file"
               :auto-upload="false"
               :multiple="false"
               :on-change="handleChange">
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             </el-upload>
+          </el-form-item>
+          <el-form-item label="旧版本号" prop="oldVersion">
+            <el-input v-model="addAppForm.oldVersion"></el-input>
+          </el-form-item>
+          <el-form-item label="新版本号" prop="newVersion">
+            <el-input v-model="addAppForm.newVersion"></el-input>
           </el-form-item>
           <el-form-item label="更新说明" prop="updateTips">
             <el-input v-model="addAppForm.updateTips"></el-input>
@@ -108,20 +118,26 @@
       <div>
         <el-form ref="updateForm" :rules="rulesupdateApp" :model="updateForm" label-width="80px">
           <el-form-item label="应用类型" prop="appType">
-            <el-radio class="radio" disabled v-model="updateForm.appType" label="1" >登记客户端</el-radio>
-            <el-radio class="radio" disabled v-model="updateForm.appType" label="2">MDM客户端</el-radio>
+            <el-radio class="radio" disabled v-model="updateForm.type" label="1" >ROM</el-radio>
+            <el-radio class="radio" disabled v-model="updateForm.type" label="2">MCU</el-radio>
           </el-form-item>
           <el-form-item label="选择文件" prop="appFile">
             <el-upload
               class="upload-demo"
               ref="upload"
               action="www.baidu.com"
-              :file-list="updateForm.appFile"
+              :file-list="updateForm.file"
               :auto-upload="false"
               :multiple="false"
               :on-change="handleChangeUpdate">
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             </el-upload>
+          </el-form-item>
+          <el-form-item label="旧版本号" prop="oldVersion">
+            <el-input v-model="updateForm.oldVersion"></el-input>
+          </el-form-item>
+          <el-form-item label="新版本号" prop="newVersion">
+            <el-input v-model="updateForm.newVersion"></el-input>
           </el-form-item>
           <el-form-item label="更新说明" prop="updateTips">
             <el-input v-model="updateForm.updateTips"></el-input>
@@ -137,12 +153,12 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { appSearch, appUpload, updateApp, deleteApp } from 'api/appManage'
-  import App from 'common/js/app'
+  import { firmwareSearch, firmwareUpload, updateFirmware, deleteFirmware } from 'api/firmwareManage'
+  import Firmware from 'common/js/firmware'
   export default {
     props: {},
     created() {
-      this.getApp()
+      this.getFirmware();
     },
     data() {
       const validateFile = (rule, value, callback) => {
@@ -155,19 +171,23 @@
       return {
         options: [{
           value: 1,
-          label: '登记客户端'
+          label: 'ROM'
         }, {
           value: 2,
-          label: 'MDM客户端'
+          label: 'MCU'
         }],
         addAppForm: {
-          appType: '1',
-          appFile: [],
+          type: '1',
+          file: [],
+          oldVersion: '',
+          newVersion: '',
           updateTips: ''
         },
         updateForm: {
-          appType: '1',
-          appFile: [],
+          type: '1',
+          file: [],
+          oldVersion: '',
+          newVersion: '',
           updateTips: ''
         },
         uploadNewVisible: false,
@@ -175,10 +195,14 @@
         appList: [],
         appTypeSelect: '',
         rulesAddApp: {
-          appFile: [{ validator: validateFile, trigger: 'change' }],
+          file: [{ validator: validateFile, trigger: 'change' }],
+          oldVersion: [{ required: true, message: '请输入旧版本号', trigger: 'blur' }],
+          newVersion: [{ required: true, message: '请输入新版本号', trigger: 'blur' }],
           updateTips: [{ required: true, message: '请输入更新说明', trigger: 'blur' }]
         },
         rulesupdateApp: {
+          oldVersion: [{ required: true, message: '请输入旧版本号', trigger: 'blur' }],
+          newVersion: [{ required: true, message: '请输入新版本号', trigger: 'blur' }],
           updateTips: [{ required: true, message: '请输入更新说明', trigger: 'blur' }]
         },
         openId: -1
@@ -189,18 +213,18 @@
         this.uploadNewVisible = true
       },
       handleChange(file) {
-        this.addAppForm.appFile = [file]
+        this.addAppForm.file = [file]
       },
       appAddEnter(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            appUpload(this.addAppForm.appType, this.addAppForm.appFile[0].raw, this.addAppForm.updateTips).then(() => {
+            firmwareUpload(this.addAppForm.type, this.addAppForm.file[0].raw, this.addAppForm.oldVersion, this.addAppForm.newVersion, this.addAppForm.updateTips).then(() => {
               this.$message({
                 type: 'info',
-                message: '上传应用成功！'
+                message: '上传固件成功！'
               });
               this.uploadNewVisible = false;
-              this.getApp();
+              this.getFirmware();
             })
           } else {
             this.uploadNewVisible = false;
@@ -219,33 +243,35 @@
       },
       changeAppType(event) {
         this.appTypeSelect = event
-        this.getApp();
+        this.getFirmware();
       },
       appUpdate(index) {
         this.openId = index.row.applicationId
-        this.updateForm.appType = index.row.appType + ''
-        this.updateForm.appFile.push({ name: index.row.appName })
+        this.updateForm.type = index.row.type + ''
+        this.updateForm.file.push({ name: index.row.name })
+        this.updateForm.oldVersion = index.row.oldVersion
+        this.updateForm.newVersion = index.row.newVersion
         this.updateForm.updateTips = index.row.updateTips
         this.updateAppVisible = true
       },
       handleChangeUpdate(file) {
-        this.updateForm.appFile = [file]
+        this.updateForm.file = [file]
       },
       appUpdateEnter(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
             let file = ''
-            if (this.updateForm.appFile[0].raw) {
-              file = this.updateForm.appFile[0].raw
+            if (this.updateForm.file[0].raw) {
+              file = this.updateForm.file[0].raw
             }
-            updateApp(this.openId, file, this.updateForm.updateTips).then(() => {
+            updateFirmware(this.openId, file, this.addAppForm.oldVersion, this.addAppForm.newVersion, this.updateForm.updateTips).then(() => {
               this.$message({
                 type: 'info',
-                message: '编辑应用成功！'
+                message: '编辑固件成功！'
               });
               this.updateAppVisible = false;
               this.openId = -1
-              this.getApp();
+              this.getFirmware();
             })
           } else {
             this.updateAppVisible = false;
@@ -273,7 +299,7 @@
             if (action === 'confirm') {
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
-              deleteApp(this.openId).then(response => {
+              deleteFirmware(this.openId).then(response => {
                 if (response.data.code === 1) {
                   done();
                   this.$message({
@@ -296,31 +322,31 @@
           }
         }).then(() => {
           this.openId = -1
-          this.getApp();
+          this.getFirmware();
         }).catch(() => {
           this.openId = -1
         });
       },
-      getApp() {
-        let appType = 0
+      getFirmware() {
+        let type = 0
         if (this.appTypeSelect === '') {
-          appType = 0
+          type = 0
         } else {
-          appType = this.appTypeSelect
+          type = this.appTypeSelect
         }
-        appSearch(''
-          , appType).then(response => {
+        firmwareSearch(''
+          , type).then(response => {
             this.appList = [];
             response.data.result.content.forEach(item => {
-              let appTypeStr = ''
-              if (item.appType === 1) {
-                appTypeStr = '登记客户端'
-              } else if (item.appType === 2) {
-                appTypeStr = 'MDM客户端'
+              let typeStr = ''
+              if (item.type === 1) {
+                typeStr = 'ROM'
+              } else if (item.type === 2) {
+                typeStr = 'MCU'
               }
-              const app = new App(item)
-              app.appTypeStr = appTypeStr
-              this.appList.push(app)
+              const firmware = new Firmware(item)
+              firmware.typeStr = typeStr
+              this.appList.push(firmware)
             })
           })
       }
