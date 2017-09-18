@@ -8,9 +8,9 @@ import { login, logout } from '@/api/login';
 const user = {
   state: {
     token: Cookies.get('Admin-Token'),
-    name: '',
-    avatar: '',
-    roles: []
+    name: Cookies.get('Name'),
+    avatar: Cookies.get('Avatar'),
+    roles: ''
     // rolesBeforeUse: []
   },
   mutations: {
@@ -70,12 +70,15 @@ const user = {
       return new Promise((resolve, reject) => {
         login(email, userInfo.password).then(response => {
           const data = response.data
-          // const userObj = response.data.result
+          const userObj = response.data.result
           Cookies.set('Admin-Token', data.token);
           commit('SET_TOKEN', data.token);
-          // commit('SET_ROLESBEFOREUSE', userObj.module);
-          // commit('SET_NAME', userObj.name);
-          // commit('SET_AVATAR', 'default');
+          // commit('SET_ROLES', userObj.module);
+          commit('SET_NAME', userObj.name);
+          commit('SET_AVATAR', 'default');
+          Cookies.set('Roles', userObj.module);
+          Cookies.set('Name', userObj.name);
+          Cookies.set('Avatar', 'default');
           // resolve(userObj.module);
           resolve();
         }).catch(error => {
@@ -89,7 +92,7 @@ const user = {
     //     resolve(response);
     //   });
     // },
-    GetInfo({ commit }) {
+    GetInfo({ commit, state }) {
       return new Promise(resolve => {
         // getInfo(state.token).then(response => {
           //   const data = response.data.result;
@@ -100,18 +103,25 @@ const user = {
           // }).catch(error => {
           //   reject(error);
           // });
-        const data = {
-          role: ['a'],
-          name: 'sjy',
-          avatar: 'default'
+        // const data = {
+        //   role: ['a'],
+        //   name: 'sjy',
+        //   avatar: 'default'
+        // }
+        // const response = {};
+        // response.data = {};
+        // response.data.result = data;
+        if (state.roles === '') {
+          if (Cookies.get('Roles')) {
+            commit('SET_ROLES', Cookies.get('Roles'));
+            // console.log(state.roles)
+            resolve(state.roles);
+          } else {
+            resolve(-1);
+          }
+        } else {
+          resolve(state.roles);
         }
-        const response = {};
-        response.data = {};
-        response.data.result = data;
-        commit('SET_ROLES', data.role);
-        commit('SET_NAME', data.name);
-        commit('SET_AVATAR', data.avatar);
-        resolve(response);
       });
     }
   },

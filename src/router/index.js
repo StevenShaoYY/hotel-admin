@@ -30,6 +30,7 @@ export const constantRouterMap = [
     path: '/',
     name: '信息统计',
     component: layout,
+    icon: 'icon-dashboard',
     redirect: '/menu1/index',
     hidden: true,
     children: [{ path: 'hello', component: Dashboard }]
@@ -45,6 +46,7 @@ export const asyncRouterMap = [
     path: '/menu1',
     component: layout,
     meta: { role: ['a'] },
+    icon: 'icon-dashboard',
     noDropdown: true,
     redirect: '/menu1/index',
     children: [{ path: 'index', component: Dashboard, name: '信息统计' }]
@@ -55,24 +57,25 @@ export const asyncRouterMap = [
     component: layout,
     meta: { role: ['a'] },
     noDropdown: true,
+    icon: 'icon-hotelmanage',
     redirect: '/menu2/index',
     children: [{ path: 'index', component: HotelManage, name: '旅馆管理' },
       { path: 'hotel_detail', component: HotelDetail, hidden: true, name: '旅馆详情' }]
   },
   {
     path: '/menu3',
-    // name: '菜单二',
     component: layout,
     meta: { role: ['a'] },
     noDropdown: true,
+    icon: 'icon-boxmanage',
     redirect: '/menu3/index',
     children: [{ path: 'index', component: BoxManageMain, name: '设备管理' }]
   },
   {
     path: '/menu4',
-    // name: '菜单二',
     component: layout,
     meta: { role: ['a'] },
+    icon: 'icon-usermanage',
     noDropdown: true,
     redirect: '/menu4/index',
     children: [{ path: 'index', component: UserManage, name: '用户管理' }]
@@ -82,6 +85,7 @@ export const asyncRouterMap = [
     name: '消息管理',
     component: layout,
     meta: { role: ['a'] },
+    icon: 'icon-messagemanage',
     noDropdown: true,
     redirect: '/menu5/index',
     children: [{ path: 'index', component: MessageManage, name: '消息管理' },
@@ -92,6 +96,7 @@ export const asyncRouterMap = [
     name: '系统管理',
     component: layout,
     meta: { role: ['a'] },
+    icon: 'icon-systemmanage',
     redirect: 'noredirect',
     children: [{ path: 'index', component: AdminManage, name: '管理员管理' },
       { path: 'roleManage', component: RoleManage, name: '角色管理' },

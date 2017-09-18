@@ -453,7 +453,7 @@ apiRoutes.get('/admin/firmwares', function (req, res) {
   var obj = {
     firmwareId: '',
     name:'adjiads-1122' ,
-    type: '1',
+    type: 1,
     oldVersion: '3213.3123',
     newVersion: '3213.4444',
     updateTips: 'asdjsajd',

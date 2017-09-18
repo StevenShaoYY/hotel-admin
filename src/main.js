@@ -30,11 +30,19 @@ router.beforeEach((to, from, next) => {
         //   next({ ...to });
         // })
         store.dispatch('GetInfo').then(res => {
-          const roles = res.data.result.role;
-          store.dispatch('GenerateRoutes', { roles }).then(() => {
-            router.addRoutes(store.getters.addRouters);
-            next({ ...to });
-          })
+          // const roles = res.data.result.role;
+          if (res === undefined) {
+            // console.log(res)
+            store.dispatch('FedLogOut')
+            next({ path: '/login' });
+          } else {
+            // console.log(res)
+            const roles = res
+            store.dispatch('GenerateRoutes', { roles }).then(() => {
+              router.addRoutes(store.getters.addRouters);
+              next({ ...to });
+            })
+          }
         })
       } else {
         next();

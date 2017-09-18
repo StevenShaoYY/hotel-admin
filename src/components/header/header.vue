@@ -6,7 +6,8 @@
     <bread-crumb class="bread-crumb"></bread-crumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img class="user-avatar" :src="pic">
+        <!--<img class="user-avatar" :src="pic">-->
+        <i class="icon-user"></i>
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
@@ -159,6 +160,9 @@
       cursor: pointer;
       margin-top: 5px;
       position: relative;
+      .icon-user
+        font-size 40px
+        line-height 50px
       .user-avatar
         width: 40px;
         height: 40px;
