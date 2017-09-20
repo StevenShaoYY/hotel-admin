@@ -76,6 +76,7 @@ const user = {
           // commit('SET_ROLES', userObj.module);
           commit('SET_NAME', userObj.name);
           commit('SET_AVATAR', 'default');
+          // Cookies.set('Roles', userObj.module);
           Cookies.set('Roles', userObj.module);
           Cookies.set('Name', userObj.name);
           Cookies.set('Avatar', 'default');

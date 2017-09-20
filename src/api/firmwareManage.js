@@ -23,32 +23,49 @@ export function firmwareUpdate(deviceList, condition, type, firmwareId) {
   });
 }
 
-export function firmwareUpload(type, file, oldVersion, newVersion, updateTips) {
+// export function firmwareUpload(type, file, oldVersion, newVersion, updateTips) {
+//   return fetch({
+//     url: '/ops/admin/firmwares',
+//     method: 'post',
+//     data: {
+//       type,
+//       file,
+//       oldVersion,
+//       newVersion,
+//       updateTips
+//     }
+//   });
+// }
+
+export function firmwareUpload(formdata) {
   return fetch({
     url: '/ops/admin/firmwares',
     method: 'post',
-    data: {
-      type,
-      file,
-      oldVersion,
-      newVersion,
-      updateTips
-    }
+    data: formdata
   });
 }
 
-export function updateFirmware(id, file, oldVersion, newVersion, updateTips) {
+// export function updateFirmware(id, file, oldVersion, newVersion, updateTips) {
+//   return fetch({
+//     url: `/ops/admin/firmwares/${id}`,
+//     method: 'patch',
+//     data: {
+//       file,
+//       oldVersion,
+//       newVersion,
+//       updateTips
+//     }
+//   });
+// }
+
+export function updateFirmware(id, formdata) {
   return fetch({
     url: `/ops/admin/firmwares/${id}`,
     method: 'patch',
-    data: {
-      file,
-      oldVersion,
-      newVersion,
-      updateTips
-    }
+    data: formdata
   });
 }
+
 
 export function deleteFirmware(id) {
   return fetch({

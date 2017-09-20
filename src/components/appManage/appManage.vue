@@ -74,6 +74,35 @@
         <!--</el-pagination>-->
       <!--</div>-->
     </div>
+    <!--<el-dialog title="上传新应用" :visible.sync="uploadNewVisible" :before-close="clearForm">-->
+      <!--<div>-->
+        <!--<el-form ref="addAppForm" :rules="rulesAddApp" :model="addAppForm" label-width="80px">-->
+          <!--<el-form-item label="应用类型" prop="appType">-->
+            <!--<el-radio class="radio" v-model="addAppForm.appType" label="1">登记客户端</el-radio>-->
+            <!--<el-radio class="radio" v-model="addAppForm.appType" label="2">MDM客户端</el-radio>-->
+          <!--</el-form-item>-->
+          <!--<el-form-item label="选择文件" prop="appFile">-->
+            <!--<el-upload-->
+              <!--ref="upload"-->
+              <!--action="www.baidu.com"-->
+              <!--:file-list="addAppForm.appFile"-->
+              <!--:auto-upload="false"-->
+              <!--:multiple="false"-->
+              <!--:on-change="handleChange">-->
+              <!--<el-button slot="trigger" size="small" type="primary">选取文件</el-button>-->
+            <!--</el-upload>-->
+          <!--</el-form-item>-->
+          <!--<el-form-item label="更新说明" prop="updateTips">-->
+            <!--<el-input v-model="addAppForm.updateTips"></el-input>-->
+          <!--</el-form-item>-->
+          <!--<el-form-item>-->
+            <!--<el-button type="primary" @click="appAddEnter('addAppForm')">提交</el-button>-->
+            <!--<el-button @click="resetForm('addAppForm')">重置</el-button>-->
+          <!--</el-form-item>-->
+        <!--</el-form>-->
+      <!--</div>-->
+    <!--</el-dialog>-->
+
     <el-dialog title="上传新应用" :visible.sync="uploadNewVisible" :before-close="clearForm">
       <div>
         <el-form ref="addAppForm" :rules="rulesAddApp" :model="addAppForm" label-width="80px">
@@ -83,13 +112,16 @@
           </el-form-item>
           <el-form-item label="选择文件" prop="appFile">
             <el-upload
-              class="upload-demo"
-              ref="upload"
-              action="www.baidu.com"
-              :file-list="addAppForm.appFile"
+              ref="uploadApp"
+              :before-upload="beforeUpload"
+              :action="uploadUrl"
               :auto-upload="false"
               :multiple="false"
-              :on-change="handleChange">
+              :on-change="handleChange"
+              >
+              <!--:file-list="addAppForm.appFile"-->
+              <!--:data="formSubmitData"-->
+              <!--:on-change="handleChange"-->
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             </el-upload>
           </el-form-item>
@@ -113,13 +145,13 @@
           </el-form-item>
           <el-form-item label="选择文件" prop="appFile">
             <el-upload
-              class="upload-demo"
-              ref="upload"
+              ref="uploadUpdate"
               action="www.baidu.com"
-              :file-list="updateForm.appFile"
               :auto-upload="false"
+              :before-upload="beforeUpdate"
               :multiple="false"
               :on-change="handleChangeUpdate">
+              <!--:file-list="updateForm.appFile"-->
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             </el-upload>
           </el-form-item>
@@ -153,6 +185,7 @@
         }
       };
       return {
+        uploadUrl: 'useless',
         options: [{
           value: 1,
           label: '登记客户端'
@@ -179,11 +212,17 @@
           updateTips: [{ required: true, message: '请输入更新说明', trigger: 'blur' }]
         },
         rulesupdateApp: {
+          appFile: [{ validator: validateFile, trigger: 'change' }],
           updateTips: [{ required: true, message: '请输入更新说明', trigger: 'blur' }]
         },
         openId: -1
       }
     },
+//    computed: {
+//      formSubmitData() {
+//        return { appType: this.addAppForm.appType, updateTips: this.addAppForm.updateTips }
+//      }
+//    },
     methods: {
       addApp() {
         this.uploadNewVisible = true
@@ -191,19 +230,42 @@
       handleChange(file) {
         this.addAppForm.appFile = [file]
       },
+      beforeUpload(file) {
+        const fd = new FormData()
+        fd.append('appFile', file)
+        fd.append('appType', this.addAppForm.appType)
+        fd.append('updateTips', this.addAppForm.updateTips)
+        appUpload(fd).then(() => {
+          this.$message({
+            type: 'info',
+            message: '上传应用成功！'
+          });
+          this.uploadNewVisible = false;
+          this.getApp();
+        }).catch(() => {
+          this.uploadNewVisible = false;
+          this.openId = -1
+        })
+        return false
+      },
       appAddEnter(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            appUpload(this.addAppForm.appType, this.addAppForm.appFile[0].raw, this.addAppForm.updateTips).then(() => {
-              this.$message({
-                type: 'info',
-                message: '上传应用成功！'
-              });
-              this.uploadNewVisible = false;
-              this.getApp();
-            })
+//            appUpload(this.addAppForm.appType, this.addAppForm.appFile[0].raw, this.addAppForm.updateTips).then(() => {
+//              this.$message({
+//                type: 'info',
+//                message: '上传应用成功！'
+//              });
+//              this.uploadNewVisible = false;
+//              this.getApp();
+//            }).catch(() => {
+//              this.uploadNewVisible = false;
+//            })
+//            this.formSubmitData = { appType: this.addAppForm.appType, updateTips: this.addAppForm.updateTips }
+
+            this.$refs.uploadApp.submit()
           } else {
-            this.uploadNewVisible = false;
+//            this.uploadNewVisible = false;
             console.log('error submit!!');
             return false;
           }
@@ -231,25 +293,45 @@
       handleChangeUpdate(file) {
         this.updateForm.appFile = [file]
       },
+      beforeUpdate(file) {
+        const fd = new FormData()
+        fd.append('appFile', file)
+        fd.append('updateTips', this.updateForm.updateTips)
+        updateApp(this.openId, fd).then(() => {
+          this.$message({
+            type: 'info',
+            message: '编辑应用成功！'
+          });
+          this.updateAppVisible = false;
+          this.getApp();
+        }).catch(() => {
+          this.updateAppVisible = false;
+        })
+        return false
+      },
       appUpdateEnter(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            let file = ''
-            if (this.updateForm.appFile[0].raw) {
-              file = this.updateForm.appFile[0].raw
-            }
-            updateApp(this.openId, file, this.updateForm.updateTips).then(() => {
-              this.$message({
-                type: 'info',
-                message: '编辑应用成功！'
-              });
-              this.updateAppVisible = false;
-              this.openId = -1
-              this.getApp();
-            })
+//            let file = ''
+//            if (this.updateForm.appFile[0].raw) {
+//              file = this.updateForm.appFile[0].raw
+//            }
+//            updateApp(this.openId, file, this.updateForm.updateTips).then(() => {
+//              this.$message({
+//                type: 'info',
+//                message: '编辑应用成功！'
+//              });
+//              this.updateAppVisible = false;
+//              this.openId = -1
+//              this.getApp();
+//            }).catch(() => {
+//              this.updateAppVisible = false;
+//              this.openId = -1
+//            })
+            this.$refs.uploadUpdate.submit()
           } else {
-            this.updateAppVisible = false;
-            this.openId = -1
+//            this.updateAppVisible = false;
+//            this.openId = -1
             console.log('error submit!!');
             return false;
           }

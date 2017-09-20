@@ -87,12 +87,11 @@
           </el-form-item>
           <el-form-item label="选择文件" prop="file">
             <el-upload
-              class="upload-demo"
-              ref="upload"
-              action="www.baidu.com"
-              :file-list="addAppForm.file"
+              ref="uploadApp"
+              :before-upload="beforeUpload"
               :auto-upload="false"
               :multiple="false"
+              action="www.baidu.com"
               :on-change="handleChange">
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             </el-upload>
@@ -123,11 +122,10 @@
           </el-form-item>
           <el-form-item label="选择文件" prop="appFile">
             <el-upload
-              class="upload-demo"
-              ref="upload"
+              ref="uploadUpdate"
               action="www.baidu.com"
-              :file-list="updateForm.file"
               :auto-upload="false"
+              :before-upload="beforeUpdate"
               :multiple="false"
               :on-change="handleChangeUpdate">
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -215,19 +213,43 @@
       handleChange(file) {
         this.addAppForm.file = [file]
       },
+      beforeUpload(file) {
+        const fd = new FormData()
+        fd.append('file', file)
+        fd.append('type', this.addAppForm.type)
+        fd.append('updateTips', this.addAppForm.updateTips)
+        fd.append('oldVersion', this.addAppForm.oldVersion)
+        fd.append('newVersion', this.addAppForm.newVersion)
+        firmwareUpload(fd).then(() => {
+          this.$message({
+            type: 'info',
+            message: '上传固件成功！'
+          });
+          this.uploadNewVisible = false;
+          this.getFirmware();
+        }).catch(() => {
+          this.uploadNewVisible = false;
+          this.openId = -1
+        })
+        return false
+      },
       appAddEnter(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            firmwareUpload(this.addAppForm.type, this.addAppForm.file[0].raw, this.addAppForm.oldVersion, this.addAppForm.newVersion, this.addAppForm.updateTips).then(() => {
-              this.$message({
-                type: 'info',
-                message: '上传固件成功！'
-              });
-              this.uploadNewVisible = false;
-              this.getFirmware();
-            })
+//            firmwareUpload(this.addAppForm.type, this.addAppForm.file[0].raw, this.addAppForm.oldVersion, this.addAppForm.newVersion, this.addAppForm.updateTips).then(() => {
+//              this.$message({
+//                type: 'info',
+//                message: '上传固件成功！'
+//              });
+//              this.uploadNewVisible = false;
+//              this.getFirmware();
+//            }).catch(() => {
+//              this.uploadNewVisible = false;
+//              this.openId = -1
+//            })
+            this.$refs.uploadApp.submit()
           } else {
-            this.uploadNewVisible = false;
+//            this.uploadNewVisible = false;
             console.log('error submit!!');
             return false;
           }
@@ -246,7 +268,7 @@
         this.getFirmware();
       },
       appUpdate(index) {
-        this.openId = index.row.applicationId
+        this.openId = index.row.firmwareId
         this.updateForm.type = index.row.type + ''
         this.updateForm.file.push({ name: index.row.name })
         this.updateForm.oldVersion = index.row.oldVersion
@@ -257,24 +279,46 @@
       handleChangeUpdate(file) {
         this.updateForm.file = [file]
       },
+      beforeUpdate(file) {
+        const fd = new FormData()
+        fd.append('file', file)
+        fd.append('updateTips', this.updateForm.updateTips)
+        fd.append('oldVersion', this.updateForm.oldVersion)
+        fd.append('newVersion', this.updateForm.newVersion)
+        updateFirmware(this.openId, fd).then(() => {
+          this.$message({
+            type: 'info',
+            message: '编辑固件成功！'
+          });
+          this.updateAppVisible = false;
+          this.getFirmware();
+        }).catch(() => {
+          this.updateAppVisible = false;
+        })
+        return false
+      },
       appUpdateEnter(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            let file = ''
-            if (this.updateForm.file[0].raw) {
-              file = this.updateForm.file[0].raw
-            }
-            updateFirmware(this.openId, file, this.addAppForm.oldVersion, this.addAppForm.newVersion, this.updateForm.updateTips).then(() => {
-              this.$message({
-                type: 'info',
-                message: '编辑固件成功！'
-              });
-              this.updateAppVisible = false;
-              this.openId = -1
-              this.getFirmware();
-            })
+//            let file = ''
+//            if (this.updateForm.file[0].raw) {
+//              file = this.updateForm.file[0].raw
+//            }
+//            updateFirmware(this.openId, file, this.addAppForm.oldVersion, this.addAppForm.newVersion, this.updateForm.updateTips).then(() => {
+//              this.$message({
+//                type: 'info',
+//                message: '编辑固件成功！'
+//              });
+//              this.updateAppVisible = false;
+//              this.openId = -1
+//              this.getFirmware();
+//            }).catch(() => {
+//              this.updateAppVisible = false;
+//              this.openId = -1
+//            })
+            this.$refs.uploadUpdate.submit()
           } else {
-            this.updateAppVisible = false;
+//            this.updateAppVisible = false;
             this.openId = -1
             console.log('error submit!!');
             return false;
@@ -287,7 +331,7 @@
         this.updateAppVisible = false;
       },
       deleteApp(index) {
-        this.openId = index.row.applicationId
+        this.openId = index.row.firmwareId
         const h = this.$createElement;
         this.$msgbox({
           title: '删除应用',

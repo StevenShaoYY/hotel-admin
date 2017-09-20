@@ -23,35 +23,35 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import { isEmail } from 'common/js/validate';
+//  import { isEmail } from 'common/js/validate';
   import { mapActions } from 'vuex';
   export default{
     name: 'Login',
     props: {},
     data() {
-      const validateEmail = (rule, value, callback) => {
-        if (!isEmail(value)) {
-          callback(new Error('请输入正确的合法邮箱'));
-        } else {
-          callback();
-        }
-      };
+//      const validateEmail = (rule, value, callback) => {
+//        if (!isEmail(value)) {
+//          callback(new Error('请输入正确的合法邮箱'));
+//        } else {
+//          callback();
+//        }
+//      };
       const validatePass = (rule, value, callback) => {
-        if (value.length < 5) {
-          callback(new Error('密码不能小于5位'));
+        if (value.length < 3) {
+          callback(new Error('密码不能小于3位'));
         } else {
           callback();
         }
       };
       return {
         loginForm: {
-          email: '123456@qq.com',
-          password: '111111'
+          email: '',
+          password: ''
         },
         loginRules: {
-          email: [
-            { required: true, trigger: 'blur', validator: validateEmail }
-          ],
+//          email: [
+//            { required: true, trigger: 'blur', validator: validateEmail }
+//          ],
           password: [
             { required: true, trigger: 'blur', validator: validatePass }
           ]

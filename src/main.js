@@ -31,12 +31,10 @@ router.beforeEach((to, from, next) => {
         // })
         store.dispatch('GetInfo').then(res => {
           // const roles = res.data.result.role;
-          if (res === undefined) {
-            // console.log(res)
+          if (res === undefined || res === -1) {
             store.dispatch('FedLogOut')
             next({ path: '/login' });
           } else {
-            // console.log(res)
             const roles = res
             store.dispatch('GenerateRoutes', { roles }).then(() => {
               router.addRoutes(store.getters.addRouters);

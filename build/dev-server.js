@@ -30,54 +30,54 @@ app.use(bodyParser.urlencoded({            //此项必须在 bodyParser.json 下
 var appData = require('../data.json');
 var apiRoutes = express.Router();
 var login = appData.login;
-apiRoutes.post('/admin/login', function (req, res) {
-  //console.log(req.headers['x-token'])
-  var obj = {
-    id: 123,
-    username: 'shaojunyan',
-    name: '邵俊彦',
-    roles: [1, 2],
-    module: ['a'],
-    status: 1,
-    remark: 'asdada',
-    modifyPerson: 'shao俊彦',
-    updateTime: '2017-01-02 12：21：21'
-  };
-  if(req.body.username === '123456@qq.com' && req.body.password === '111111'){
-    res.json({
-      code: '1',
-      token: '12345',
-      message: '',
-      result: obj
-    });
-  } else {
-    res.json({
-      code: 0,
-      message: '账号密码错误！'
-    });
-  }
+// apiRoutes.post('/admin/login', function (req, res) {
+//   //console.log(req.headers['x-token'])
+//   var obj = {
+//     id: 123,
+//     username: 'shaojunyan',
+//     name: '邵俊彦',
+//     roles: [1, 2],
+//     module: ['a', 'b', 'c', 'd'],
+//     status: 1,
+//     remark: 'asdada',
+//     modifyPerson: 'shao俊彦',
+//     updateTime: '2017-01-02 12：21：21'
+//   };
+//   if (req.body.username === '123456@qq.com' && req.body.password === '111111'){
+//     res.json({
+//       code: '1',
+//       token: '12345',
+//       message: '',
+//       result: obj
+//     });
+//   } else {
+//     res.json({
+//       code: 0,
+//       message: '账号密码错误！'
+//     });
+//   }
+//
+// });
 
-});
-
-apiRoutes.get('/user/info', function (req, res) {
-  if(req.query.token === '12345'){
-    res.json({
-      code: '1',
-      result: {
-        role:['a'],
-        name: 'sjy',
-        avatar: 'default'
-      }
-    });
-  } else {
-    res.json({
-      code: '14',
-      result: {
-
-      }
-    });
-  }
-});
+// apiRoutes.get('/user/info', function (req, res) {
+//   if(req.query.token === '12345'){
+//     res.json({
+//       code: '1',
+//       result: {
+//         role:['a'],
+//         name: 'sjy',
+//         avatar: 'default'
+//       }
+//     });
+//   } else {
+//     res.json({
+//       code: '14',
+//       result: {
+//
+//       }
+//     });
+//   }
+// });
 
 apiRoutes.get('/admin/logout', function (req, res) {
 
@@ -87,54 +87,54 @@ apiRoutes.get('/admin/logout', function (req, res) {
     });
 });
 
-apiRoutes.get('/statistics', function (req, res) {
-  res.json({
-    code: '1',
-    message: '',
-    token: '',
-    result: {
-      boxCount : 20,
-      userCount : 30,
-      hotelCount : 40,
-      roomCount : 50,
-      todayCheckin : 2332130,
-      todayVisitors : 21231230
-    }
-  });
-});
+// apiRoutes.get('/statistics', function (req, res) {
+//   res.json({
+//     code: '1',
+//     message: '',
+//     token: '',
+//     result: {
+//       boxCount : 20,
+//       userCount : 30,
+//       hotelCount : 40,
+//       roomCount : 50,
+//       todayCheckin : 2332130,
+//       todayVisitors : 21231230
+//     }
+//   });
+// });
 
-apiRoutes.get('/hotels', function (req, res) {
-  var obj = {
-    hotelCode: '123123123',
-    hotelName: '如家',
-    hotelAddress: '阿萨黑色短裤',
-    hotelManager: '邵俊彦',
-    contactNumber: '15757115734',
-    totalRooom : '213',
-    totalBed : '213',
-    belongArea : '213',
-    createPerson: '213',
-    createTime: '213',
-    modifyPerson : '213',
-    modifyTime: '213',
-  };
-  var arr = []
-  for(var i =0;i<15;i++){
-    arr.push(obj);
-  }
-  res.json({
-    code: '1',
-    message: '',
-    token: '',
-    result:{
-      totalPage: 10,
-      totalCount: 100,
-      currentPage: 1,
-      pageSize: 15,
-      content: arr
-    }
-  });
-});
+// apiRoutes.get('/hotels', function (req, res) {
+//   var obj = {
+//     hotelCode: '123123123',
+//     hotelName: '如家',
+//     hotelAddress: '阿萨黑色短裤',
+//     hotelManager: '邵俊彦',
+//     contactNumber: '15757115734',
+//     totalRooom : '213',
+//     totalBed : '213',
+//     belongArea : '213',
+//     createPerson: '213',
+//     createTime: '213',
+//     modifyPerson : '213',
+//     modifyTime: '213',
+//   };
+//   var arr = []
+//   for(var i =0;i<15;i++){
+//     arr.push(obj);
+//   }
+//   res.json({
+//     code: '1',
+//     message: '',
+//     token: '',
+//     result:{
+//       totalPage: 10,
+//       totalCount: 100,
+//       currentPage: 1,
+//       pageSize: 15,
+//       content: arr
+//     }
+//   });
+// });
 
 apiRoutes.get('/hotels/:hotelCode', function (req, res) {
   var obj = {
@@ -412,34 +412,34 @@ apiRoutes.get('/devices', function (req, res) {
     }
   });
 });
-
-apiRoutes.get('/admin/apps', function (req, res) {
-  var arr = []
-  for(var i =0;i<10;i++){
-    var obj = {
-      applicationId: '',
-      appName:'adjiads-1122' ,
-      appType: 2,
-      versionName: '3213.3123',
-      updateTips: 'asdjsajd',
-      updateTime:'2017-02-01'
-    };
-    obj.applicationId = i+1
-    arr.push(obj);
-  }
-  res.json({
-    code: '1',
-    message: '',
-    token: '',
-    result:{
-      totalPage: 10,
-      totalCount: 100,
-      currentPage: 1,
-      pageSize: 15,
-      content: arr
-    }
-  });
-});
+//get apps
+// apiRoutes.get('/admin/apps', function (req, res) {
+//   var arr = []
+//   for(var i =0;i<10;i++){
+//     var obj = {
+//       applicationId: '',
+//       appName:'adjiads-1122' ,
+//       appType: 2,
+//       versionName: '3213.3123',
+//       updateTips: 'asdjsajd',
+//       updateTime:'2017-02-01'
+//     };
+//     obj.applicationId = i+1
+//     arr.push(obj);
+//   }
+//   res.json({
+//     code: '1',
+//     message: '',
+//     token: '',
+//     result:{
+//       totalPage: 10,
+//       totalCount: 100,
+//       currentPage: 1,
+//       pageSize: 15,
+//       content: arr
+//     }
+//   });
+// });
 
 apiRoutes.post('/devices/application', function (req, res) {
     res.json({
@@ -449,34 +449,35 @@ apiRoutes.post('/devices/application', function (req, res) {
       result: {}
     });
 });
-apiRoutes.get('/admin/firmwares', function (req, res) {
-  var obj = {
-    firmwareId: '',
-    name:'adjiads-1122' ,
-    type: 1,
-    oldVersion: '3213.3123',
-    newVersion: '3213.4444',
-    updateTips: 'asdjsajd',
-    updateTime:'asdasdsa'
-  };
-  var arr = []
-  for(var i =0;i<10;i++){
-    obj.firmwareId = i+1
-    arr.push(obj);
-  }
-  res.json({
-    code: '1',
-    message: '',
-    token: '',
-    result:{
-      totalPage: 10,
-      totalCount: 100,
-      currentPage: 1,
-      pageSize: 15,
-      content: arr
-    }
-  });
-});
+//get firmwares
+// apiRoutes.get('/admin/firmwares', function (req, res) {
+//   var obj = {
+//     firmwareId: '',
+//     name:'adjiads-1122' ,
+//     type: 1,
+//     oldVersion: '3213.3123',
+//     newVersion: '3213.4444',
+//     updateTips: 'asdjsajd',
+//     updateTime:'asdasdsa'
+//   };
+//   var arr = []
+//   for(var i =0;i<10;i++){
+//     obj.firmwareId = i+1
+//     arr.push(obj);
+//   }
+//   res.json({
+//     code: '1',
+//     message: '',
+//     token: '',
+//     result:{
+//       totalPage: 10,
+//       totalCount: 100,
+//       currentPage: 1,
+//       pageSize: 15,
+//       content: arr
+//     }
+//   });
+// });
 
 apiRoutes.post('/devices/firmware', function (req, res) {
   res.json({

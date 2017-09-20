@@ -23,26 +23,42 @@ export function appUpdate(deviceList, condition, type, applicationId) {
   });
 }
 
-export function appUpload(appType, appFile, updateTips) {
+// export function appUpload(appType, appFile, updateTips) {
+//   return fetch({
+//     url: '/ops/admin/apps',
+//     method: 'post',
+//     data: {
+//       appType,
+//       appFile,
+//       updateTips
+//     }
+//   });
+// }
+
+export function appUpload(formdata) {
   return fetch({
     url: '/ops/admin/apps',
     method: 'post',
-    data: {
-      appType,
-      appFile,
-      updateTips
-    }
+    data: formdata
   });
 }
 
-export function updateApp(id, appFile, updateTips) {
+// export function updateApp(id, appFile, updateTips) {
+//   return fetch({
+//     url: `/ops/admin/apps/${id}`,
+//     method: 'patch',
+//     data: {
+//       appFile,
+//       updateTips
+//     }
+//   });
+// }
+
+export function updateApp(id, dataform) {
   return fetch({
     url: `/ops/admin/apps/${id}`,
     method: 'patch',
-    data: {
-      appFile,
-      updateTips
-    }
+    data: dataform
   });
 }
 
