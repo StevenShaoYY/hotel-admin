@@ -11,15 +11,21 @@ export function firmwareSearch(queryKey, type) {
 }
 
 export function firmwareUpdate(deviceList, condition, type, firmwareId) {
+  const fd = new FormData()
+  fd.append('deviceList', deviceList)
+  fd.append('condition', condition)
+  fd.append('type', type)
+  fd.append('firmwareId', firmwareId)
   return fetch({
     url: '/ops/devices/firmware',
     method: 'post',
-    data: {
-      deviceList,
-      condition,
-      type,
-      firmwareId
-    }
+    // data: {
+    //   deviceList,
+    //   condition,
+    //   type: 1,
+    //   firmwareId
+    // }
+    data: fd
   });
 }
 

@@ -2,14 +2,14 @@
  * Created by stevenshao on 17/9/9.
  */
 export default class Firmware {
-  constructor({ firmwareId,
+  constructor({ id,
                 name,
                 type,
                 oldVersion,
                 newVersion,
                 updateTips,
                 updateTime }) {
-    this.firmwareId = firmwareId
+    this.id = id
     this.name = name
     this.type = type
     this.oldVersion = oldVersion

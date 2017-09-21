@@ -268,7 +268,7 @@
         this.getFirmware();
       },
       appUpdate(index) {
-        this.openId = index.row.firmwareId
+        this.openId = index.row.id
         this.updateForm.type = index.row.type + ''
         this.updateForm.file.push({ name: index.row.name })
         this.updateForm.oldVersion = index.row.oldVersion
@@ -331,7 +331,7 @@
         this.updateAppVisible = false;
       },
       deleteApp(index) {
-        this.openId = index.row.firmwareId
+        this.openId = index.row.id
         const h = this.$createElement;
         this.$msgbox({
           title: '删除应用',
@@ -381,7 +381,7 @@
         firmwareSearch(''
           , type).then(response => {
             this.appList = [];
-            response.data.result.content.forEach(item => {
+            response.data.result.forEach(item => {
               let typeStr = ''
               if (item.type === 1) {
                 typeStr = 'ROM'

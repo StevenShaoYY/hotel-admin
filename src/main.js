@@ -15,6 +15,7 @@ import 'nprogress/nprogress.css'
 import 'normalize.css/normalize.css'
 import 'common/stylus/index.styl'
 
+console.log(store.getters.token)
 const whiteList = ['/login']
 router.beforeEach((to, from, next) => {
   NProgress.start()

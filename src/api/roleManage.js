@@ -24,15 +24,15 @@ export function getModuleList() {
 //   });
 // }
 
-export function addRole(name, module, remark) {
+export function addRole(name, moduleIds, remark) {
+  const fd = new FormData()
+  fd.append('name', name)
+  fd.append('moduleIds', moduleIds)
+  fd.append('remark', remark)
   return fetch({
     url: '/ops/admin/roles',
     method: 'post',
-    data: {
-      name,
-      moduleIds: module,
-      remark
-    }
+    data: fd
   });
 }
 
@@ -43,14 +43,14 @@ export function deleteRole(id) {
   });
 }
 
-export function updateRole(id, name, module, remark) {
+export function updateRole(id, name, moduleIds, remark) {
+  const fd = new FormData()
+  fd.append('name', name)
+  fd.append('moduleIds', moduleIds)
+  fd.append('remark', remark)
   return fetch({
     url: `/ops/admin/roles/${id}`,
     method: 'patch',
-    data: {
-      name,
-      moduleIds: module,
-      remark
-    }
+    data: fd
   });
 }

@@ -11,28 +11,29 @@ export function searchAdminList(queryKey, size, offset) {
 }
 
 export function addAdmin({ username, name, roles, password, remark }) {
+  const fd = new FormData()
+  fd.append('username', username)
+  fd.append('name', name)
+  fd.append('roles', roles)
+  fd.append('password', password)
+  fd.append('remark', remark)
   return fetch({
     url: '/ops/admin',
     method: 'put',
-    data: {
-      username,
-      name,
-      roleIds: roles,
-      password,
-      remark
-    }
+    data: fd
   });
 }
 
 export function updateAdmin({ id, name, roles, remark }) {
+  const fd = new FormData()
+  fd.append('id', id)
+  fd.append('name', name)
+  fd.append('roles', roles)
+  fd.append('remark', remark)
   return fetch({
     url: `/ops/admin/${id}`,
     method: 'patch',
-    data: {
-      name,
-      roleIds: roles,
-      remark
-    }
+    data: fd
   });
 }
 
@@ -44,13 +45,13 @@ export function resetPassword(id) {
 }
 
 export function resetAdminPassword(oldPassword, newPassword) {
+  const fd = new FormData()
+  fd.append('oldPassword', oldPassword)
+  fd.append('newPassword', newPassword)
   return fetch({
     url: '/ops/admin/modifyPassword',
     method: 'patch',
-    data: {
-      oldPassword,
-      newPassword
-    }
+    data: fd
   });
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="box_wrapper">
+  <div v-if="boxList" class="box_wrapper">
     <el-table
       :data="boxList"
       border
@@ -13,7 +13,7 @@
       <el-table-column
         prop="serialNumber"
         label="设备序列号"
-        width="150">
+        width="300">
         <template scope="scope">
           <el-button
             @click.native.prevent="showDetail(scope)"
@@ -26,7 +26,7 @@
       <el-table-column
         prop="boxName"
         label="设备类型"
-        width="100">
+        width="150">
       </el-table-column>
       <el-table-column
         label="设备状态"
@@ -38,11 +38,13 @@
       </el-table-column>
       <el-table-column
         prop="clientVersion"
-        label="客户端版本">
+        label="客户端版本"
+        width="120">
       </el-table-column>
       <el-table-column
         prop="mdmVersion"
-        label="MDM版本">
+        label="MDM版本"
+        width="100">
       </el-table-column>
       <el-table-column
         prop="registrationTIme"
@@ -132,9 +134,9 @@
           <el-select v-model="appUpdateSelect" placeholder="请选择升级应用">
             <el-option
               v-for="item in appList"
-              :key="item.applicationId"
+              :key="item.id"
               :label="item.appName"
-              :value="item.applicationId">
+              :value="item.id">
               <span style="float: left">文件名：{{ item.appName }}，</span>
               <span style="float: right;font-size: 13px">版本：{{ item.versionName }}</span>
             </el-option>
@@ -157,9 +159,9 @@
           <el-select v-model="firmwareUpdateSelect" placeholder="请选择升级固件">
             <el-option
               v-for="item in firmwareList"
-              :key="item.firmwareId"
+              :key="item.id"
               :label="item.name"
-              :value="item.firmwareId">
+              :value="item.id">
               <span style="float: left">文件名：{{ item.name }}，</span>
               <span style="float: right;font-size: 13px">旧版本：{{ item.oldVersion }}</span>
               <span style="float: right;font-size: 13px">新版本：{{ item.newVersion }},</span>
@@ -192,6 +194,10 @@
         type: Boolean,
         default: false
       },
+      pageSizeOut: {
+        type: Number,
+        default: 0
+      },
       boxListData: {
         type: Array,
         default() {
@@ -207,7 +213,9 @@
       if (this.isShowSelect === true) {
         this.boxList = this.boxListData
         this.totalCount = this.totalCountOut
+        this.pageSize = this.pageSizeOut
       } else {
+//      if (this.isShowSelect === false) {
         this.getBoxList(this.pageSize, this.currentPage)
       }
     },
@@ -229,10 +237,26 @@
       }
     },
     watch: {
+      boxListData(newVal) {
+        if (this.isShowSelect === true) {
+          this.boxList = newVal
+        }
+      },
+      totalCountOut(newVal) {
+        if (this.isShowSelect === true) {
+          this.totalCount = newVal
+        }
+      },
+      pageSizeOut(newVal) {
+        if (this.isShowSelect === true) {
+          this.pageSize = newVal
+        }
+      },
       appType(newVal, old) {
         if (newVal !== old) {
           appSearch('', newVal).then(response => {
-            response.data.result.content.forEach(item => {
+            this.appList = []
+            response.data.result.forEach(item => {
               const app = new App(item);
               this.appList.push(app)
             })
@@ -242,7 +266,8 @@
       firmwareType(newVal, old) {
         if (newVal !== old) {
           firmwareSearch('', this.firmwareType).then(response => {
-            response.data.result.content.forEach(item => {
+            this.firmwareList = []
+            response.data.result.forEach(item => {
               const firmware = new Firmware(item);
               this.firmwareList.push(firmware)
             })
@@ -293,7 +318,8 @@
       },
       appUpdate(index) {
         appSearch('', this.appType).then(response => {
-          response.data.result.content.forEach(item => {
+          this.appList = []
+          response.data.result.forEach(item => {
             const app = new App(item);
             this.appList.push(app)
           })
@@ -303,7 +329,8 @@
       },
       firmwareUpdate(index) {
         firmwareSearch('', this.firmwareType).then(response => {
-          response.data.result.content.forEach(item => {
+          this.firmwareList = []
+          response.data.result.forEach(item => {
             const firmware = new Firmware(item);
             this.firmwareList.push(firmware)
           })
@@ -371,8 +398,8 @@
             if (action === 'confirm') {
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
-              restartBox().then(response => {
-                if (response.data.code === 1) {
+              restartBox(index.row.id).then(response => {
+                if (response.data.code === '1') {
                   done();
                   setTimeout(() => {
                     instance.confirmButtonLoading = false;
@@ -425,8 +452,8 @@
             if (action === 'confirm') {
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
-              disAttachBox().then(response => {
-                if (response.data.code === 1) {
+              disAttachBox(index.row.id).then(response => {
+                if (response.data.code === '1') {
                   done();
                   setTimeout(() => {
                     instance.confirmButtonLoading = false;
@@ -477,8 +504,8 @@
             if (action === 'confirm') {
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
-              dissmissBox().then(response => {
-                if (response.data.code === 1) {
+              dissmissBox(index.row.id).then(response => {
+                if (response.data.code === '1') {
                   done();
                   setTimeout(() => {
                     instance.confirmButtonLoading = false;
@@ -529,8 +556,8 @@
             if (action === 'confirm') {
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
-              deleteBox().then(response => {
-                if (response.data.code === 1) {
+              deleteBox(index.row.id).then(response => {
+                if (response.data.code === '1') {
                   done();
                   setTimeout(() => {
                     instance.confirmButtonLoading = false;

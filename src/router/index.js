@@ -45,7 +45,7 @@ export const asyncRouterMap = [
   {
     path: '/menu1',
     component: layout,
-    meta: { role: ['a'] },
+    meta: { role: ['STATISTICS:BASIC'] },
     icon: 'icon-dashboard',
     noDropdown: true,
     redirect: '/menu1/index',
@@ -55,7 +55,7 @@ export const asyncRouterMap = [
     path: '/menu2',
     name: '旅馆管理',
     component: layout,
-    meta: { role: ['b'] },
+    meta: { role: ['HOTEL:QUERY'] },
     noDropdown: true,
     icon: 'icon-hotelmanage',
     redirect: '/menu2/index',
@@ -65,7 +65,7 @@ export const asyncRouterMap = [
   {
     path: '/menu3',
     component: layout,
-    meta: { role: ['c'] },
+    meta: { role: ['DEVICE:QUERY'] },
     noDropdown: true,
     icon: 'icon-boxmanage',
     redirect: '/menu3/index',
@@ -74,7 +74,7 @@ export const asyncRouterMap = [
   {
     path: '/menu4',
     component: layout,
-    meta: { role: ['d'] },
+    meta: { role: ['USER:QUERY'] },
     icon: 'icon-usermanage',
     noDropdown: true,
     redirect: '/menu4/index',
@@ -84,7 +84,7 @@ export const asyncRouterMap = [
     path: '/menu5',
     name: '消息管理',
     component: layout,
-    meta: { role: ['e'] },
+    meta: { role: ['MESSAGE:QUERY'] },
     icon: 'icon-messagemanage',
     noDropdown: true,
     redirect: '/menu5/index',
@@ -95,13 +95,13 @@ export const asyncRouterMap = [
     path: '/menu6',
     name: '系统管理',
     component: layout,
-    meta: { role: ['a'] },
+    meta: { role: ['ADMIN:QUERY'] },
     icon: 'icon-systemmanage',
     redirect: 'noredirect',
-    children: [{ path: 'index', component: AdminManage, meta: { role: ['a'] }, name: '管理员管理' },
-      { path: 'roleManage', component: RoleManage, name: '角色管理' },
-      { path: 'appUpload', component: AppManage, name: '应用上传' },
-      { path: 'romUpload', component: FirmwareManage, name: 'ROM上传' }]
+    children: [{ path: 'index', component: AdminManage, meta: { role: ['ADMIN:QUERY'] }, name: '管理员管理' },
+      { path: 'roleManage', meta: { role: ['ADMIN:ROLE:QUERY'] }, component: RoleManage, name: '角色管理' },
+      { path: 'appUpload', meta: { role: ['ADMIN:APP:QUERY'] }, component: AppManage, name: '应用上传' },
+      { path: 'romUpload', meta: { role: ['ADMIN:FIRMWARE:QUERY'] }, component: FirmwareManage, name: 'ROM上传' }]
   },
   { path: '*', redirect: '/404', hidden: true }
 ];

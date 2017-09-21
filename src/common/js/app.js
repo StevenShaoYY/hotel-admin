@@ -2,13 +2,13 @@
  * Created by stevenshao on 17/9/9.
  */
 export default class App {
-  constructor({ applicationId,
+  constructor({ id,
                 appName,
                 appType,
                 versionName,
                 updateTips,
                 updateTime }) {
-    this.applicationId = applicationId
+    this.id = id
     this.appName = appName
     this.appType = appType
     this.versionName = versionName

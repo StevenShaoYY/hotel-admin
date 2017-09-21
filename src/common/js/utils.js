@@ -18,3 +18,18 @@ export function deepClone(source) {
   }
   return targetObj;
 }
+
+export function dateFormat(dateObj) {
+  let result = ''
+  if (dateObj instanceof Date) {
+    const year = dateObj.getFullYear()
+    let month = dateObj.getMonth() + 1
+    if (parseInt(month) < 10)
+      month = '0' + month
+    let day = dateObj.getDate()
+    if (parseInt(day) < 10)
+      day = '0' + day
+    result = `${year}-${month}-${day}`
+  }
+  return result;
+}

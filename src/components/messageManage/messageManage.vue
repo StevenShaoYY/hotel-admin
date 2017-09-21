@@ -108,6 +108,7 @@
 <script type="text/ecmascript-6">
   import { searchMessageList } from 'api/messageManage'
   import Message from 'common/js/message'
+  import { dateFormat } from 'common/js/utils'
   export default {
     props: {},
     created() {
@@ -142,8 +143,8 @@
       getUserMessage(pageSize, currentPage) {
         searchMessageList(this.searchBoxInput
           , this.messageTypeSelected
-          , this.dateRangeSelected[0]
-          , this.dateRangeSelected[1]
+          , dateFormat(this.dateRangeSelected[0])
+          , dateFormat(this.dateRangeSelected[1])
           , pageSize
           , currentPage).then(response => {
             this.messageList = [];

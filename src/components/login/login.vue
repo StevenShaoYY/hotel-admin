@@ -45,8 +45,8 @@
       };
       return {
         loginForm: {
-          email: '',
-          password: ''
+          email: 'GOD',
+          password: '123'
         },
         loginRules: {
 //          email: [

@@ -22,6 +22,7 @@
           <el-date-picker
             v-model="dateRangeSelected"
             type="daterange"
+            format="yyyy-MM-dd"
             placeholder="按注册日期筛选">
           </el-date-picker>
         </el-col>
@@ -89,6 +90,7 @@
 
 <script type="text/ecmascript-6">
   import { searchUserList, resetPassword } from 'api/hotelManage'
+  import { dateFormat } from 'common/js/utils'
   import User from 'common/js/user'
   export default {
     props: {},
@@ -124,8 +126,8 @@
       getUserList(pageSize, currentPage) {
         searchUserList(this.searchBoxInput
           , this.userRoleSelected
-          , this.dateRangeSelected[0]
-          , this.dateRangeSelected[1]
+          , dateFormat(this.dateRangeSelected[0])
+          , dateFormat(this.dateRangeSelected[1])
           , pageSize
           , currentPage).then(response => {
             this.userList = [];

@@ -11,15 +11,15 @@ export function appSearch(queryKey, appType) {
 }
 
 export function appUpdate(deviceList, condition, type, applicationId) {
+  const fd = new FormData()
+  fd.append('deviceList', deviceList)
+  fd.append('condition', condition)
+  fd.append('type', type)
+  fd.append('applicationId', applicationId)
   return fetch({
     url: '/ops/devices/application',
     method: 'post',
-    data: {
-      deviceList,
-      condition,
-      type,
-      applicationId
-    }
+    data: fd
   });
 }
 

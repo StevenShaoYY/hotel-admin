@@ -45,6 +45,7 @@
                   v-show="showDetailFlag===false && showLogFlag===false"
                   :isShowSelect=isShowSelect
                   :boxListData=boxList
+                  :pageSizeOut=pageSize
                   :totalCountOut=totalCount
                   @showDetail="showDetail"
                   @showLog="showLog"
@@ -84,9 +85,9 @@
           <el-select v-model="appUpdateSelect" placeholder="请选择升级应用">
             <el-option
               v-for="item in appList"
-              :key="item.applicationId"
+              :key="item.id"
               :label="item.appName"
-              :value="item.applicationId">
+              :value="item.id">
               <span style="float: left">文件名：{{ item.appName }}，</span>
               <span style="float: right;font-size: 13px">版本：{{ item.versionName }}</span>
             </el-option>
@@ -114,9 +115,9 @@
           <el-select v-model="firmwareUpdateSelect" placeholder="请选择升级固件">
             <el-option
               v-for="item in firmwareList"
-              :key="item.firmwareId"
+              :key="item.id"
               :label="item.name"
-              :value="item.firmwareId">
+              :value="item.id">
               <span style="float: left">文件名：{{ item.name }}，</span>
               <span style="float: right;font-size: 13px">旧版本：{{ item.oldVersion }}</span>
               <span style="float: right;font-size: 13px">新版本：{{ item.newVersion }},</span>
@@ -139,6 +140,7 @@
   import BoxLog from 'components/boxManage/boxLog.vue'
   import { boxSearch } from 'api/boxManage'
   import App from 'common/js/app'
+  import { dateFormat } from 'common/js/utils'
   import Firmware from 'common/js/firmware'
   import { appSearch, appUpdate } from 'api/appManage'
   import { firmwareSearch, firmwareUpdate } from 'api/firmwareManage'
@@ -184,7 +186,7 @@
           label: '已注销'
         }],
         totalCount: 0,
-        pageSize: 10,
+        pageSize: 15,
         currentPage: 1,
         dialogForm1Visible: false,
         dialogForm2Visible: false,
@@ -253,9 +255,10 @@
         boxSearch(this.searchBoxInput
           , this.boxTypeSelected
           , this.boxStatusSelected
-          , this.dateRangeSelected[0]
-          , this.dateRangeSelected[1]
-          , this.pageSize, this.currentPage).then(response => {
+          , dateFormat(this.dateRangeSelected[0])
+          , dateFormat(this.dateRangeSelected[1])
+          , this.pageSize
+          , this.currentPage).then(response => {
             this.boxList = [];
             this.totalCount = response.data.result.totalCount;
             response.data.result.content.forEach(item => {
@@ -283,7 +286,7 @@
       },
       appUpdate(index) {
         appSearch('', this.appType).then(response => {
-          response.data.result.content.forEach(item => {
+          response.data.result.forEach(item => {
             const app = new App(item);
             this.appList.push(app)
           })
@@ -293,7 +296,7 @@
       },
       firmwareUpdate(index) {
         firmwareSearch('', this.firmwareType).then(response => {
-          response.data.result.content.forEach(item => {
+          response.data.result.forEach(item => {
             const firmware = new Firmware(item);
             this.firmwareList.push(firmware)
           })
@@ -316,8 +319,8 @@
             queryKey: this.searchBoxInput,
             deviceType: this.boxTypeSelected,
             deviceStatus: this.boxStatusSelected,
-            earliestTime: this.dateRangeSelected[0],
-            latestTime: this.dateRangeSelected[1]
+            earliestTime: dateFormat(this.dateRangeSelected[0]),
+            latestTime: dateFormat(this.dateRangeSelected[1])
           }
         }
         appUpdate(selectObjList, queryParams, this.appType, this.appUpdateSelect).then(() => {
@@ -343,8 +346,8 @@
             queryKey: this.searchBoxInput,
             deviceType: this.boxTypeSelected,
             deviceStatus: this.boxStatusSelected,
-            earliestTime: this.dateRangeSelected[0],
-            latestTime: this.dateRangeSelected[1]
+            earliestTime: dateFormat(this.dateRangeSelected[0]),
+            latestTime: dateFormat(this.dateRangeSelected[1])
           }
         }
         firmwareUpdate(selectObjList, queryParams, this.firmwareType, this.firmwareUpdateSelect).then(() => {

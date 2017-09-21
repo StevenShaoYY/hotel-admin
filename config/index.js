@@ -30,6 +30,7 @@ module.exports = {
     proxyTable: {
       '/ops': {
         target: 'http://dev.anlv365.com:9030/',
+        // target: 'http://localhost:9090',
         changeOrigin: true
       }
     },

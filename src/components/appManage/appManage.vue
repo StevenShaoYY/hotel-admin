@@ -284,7 +284,7 @@
         this.getApp();
       },
       appUpdate(index) {
-        this.openId = index.row.applicationId
+        this.openId = index.row.id
         this.updateForm.appType = index.row.appType + ''
         this.updateForm.appFile.push({ name: index.row.appName })
         this.updateForm.updateTips = index.row.updateTips
@@ -343,7 +343,7 @@
         this.updateAppVisible = false;
       },
       deleteApp(index) {
-        this.openId = index.row.applicationId
+        this.openId = index.row.id
         const h = this.$createElement;
         this.$msgbox({
           title: '删除应用',
@@ -393,7 +393,7 @@
         appSearch(''
           , appType).then(response => {
             this.appList = [];
-            response.data.result.content.forEach(item => {
+            response.data.result.forEach(item => {
               let appTypeStr = ''
               if (item.appType === 1) {
                 appTypeStr = '登记客户端'

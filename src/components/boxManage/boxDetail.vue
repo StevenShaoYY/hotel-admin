@@ -89,7 +89,7 @@
   export default {
     props: {
       boxId: {
-        type: String,
+        type: Number,
         default: -1
       }
     },

@@ -31,7 +31,7 @@ service.interceptors.response.use(response => {
       duration: 5 * 1000
     })
   }
-  if (res.code === '14' || res.code === '12') {
+  if (res.code === '400' || res.code === '12') {
     // 14 token 过期,12 其他用户登录
     MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
       confirmButtonText: '重新登录',

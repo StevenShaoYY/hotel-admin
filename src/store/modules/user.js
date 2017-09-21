@@ -7,7 +7,7 @@ import { login, logout } from '@/api/login';
 // getInfo
 const user = {
   state: {
-    token: Cookies.get('Admin-Token'),
+    token: Cookies.get('token'),
     name: Cookies.get('Name'),
     avatar: Cookies.get('Avatar'),
     roles: ''
@@ -37,7 +37,8 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '');
-        Cookies.remove('Admin-Token');
+        commit('SET_ROLES', []);
+        Cookies.remove('token');
         resolve();
       });
     },
@@ -58,7 +59,7 @@ const user = {
         logout().then(() => {
           commit('SET_TOKEN', '');
           commit('SET_ROLES', []);
-          Cookies.remove('Admin-Token');
+          Cookies.remove('token');
           resolve();
         }).catch(error => {
           reject(error);
@@ -71,7 +72,7 @@ const user = {
         login(email, userInfo.password).then(response => {
           const data = response.data
           const userObj = response.data.result
-          Cookies.set('Admin-Token', data.token);
+          Cookies.set('token', data.token);
           commit('SET_TOKEN', data.token);
           // commit('SET_ROLES', userObj.module);
           commit('SET_NAME', userObj.name);
