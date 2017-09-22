@@ -167,11 +167,11 @@
     watch: {
       'addRoleForm.moduleCheckedList': {
         handler(val) {
-          this.addRoleForm.module = []
+          this.addRoleForm.modules = []
           val.forEach(item => {
             this.moduleList.forEach(item2 => {
               if (item2.name === item) {
-                this.addRoleForm.module.push(item2.id)
+                this.addRoleForm.modules.push(item2.id)
               }
             })
           })
@@ -180,11 +180,11 @@
       },
       'updateRoleForm.moduleCheckedList': {
         handler(val) {
-          this.updateRoleForm.module = []
+          this.updateRoleForm.modules = []
           val.forEach(item => {
             this.moduleList.forEach(item2 => {
               if (item2.name === item) {
-                this.updateRoleForm.module.push(item2.id)
+                this.updateRoleForm.modules.push(item2.id)
               }
             })
           })
@@ -212,7 +212,7 @@
       roleAddEnter(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            addRole(this.addRoleForm.name, this.addRoleForm.module, this.addRoleForm.remark).then(() => {
+            addRole(this.addRoleForm.name, this.addRoleForm.modules, this.addRoleForm.remark).then(() => {
               this.$message({
                 type: 'info',
                 message: '添加角色成功！'
@@ -238,7 +238,7 @@
         getModuleList().then(response => {
           this.moduleList = []
           this.moduleNameList = []
-          index.row.module.forEach(item => {
+          index.row.modules.forEach(item => {
             this.updateRoleForm.moduleCheckedList.push(item.name)
           })
           this.updateRoleForm.name = index.row.name
@@ -255,7 +255,7 @@
       roleUpdateEnter(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            updateRole(this.openId, this.updateRoleForm.name, this.updateRoleForm.module, this.updateRoleForm.remark).then(() => {
+            updateRole(this.openId, this.updateRoleForm.name, this.updateRoleForm.modules, this.updateRoleForm.remark).then(() => {
               this.$message({
                 type: 'info',
                 message: '更新角色成功！'
@@ -328,9 +328,9 @@
             this.totalCount = response.data.result.totalCount;
             response.data.result.content.forEach(item => {
               const moduleNameList = []
-              item.module = JSON.parse(item.module);
-              item.module.forEach(item => {
-                moduleNameList.push(item.name)
+//              item.modules = JSON.parse(item.modules);
+              item.modules.forEach(item => {
+                moduleNameList.push(item.desc)
               })
               const role = new Role(item)
               role.moduleNameStr = moduleNameList.join(',')

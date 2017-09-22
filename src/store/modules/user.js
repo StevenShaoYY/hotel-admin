@@ -74,14 +74,14 @@ const user = {
           const userObj = response.data.result
           Cookies.set('token', data.token);
           commit('SET_TOKEN', data.token);
-          // commit('SET_ROLES', userObj.module);
+          // commit('SET_ROLES', userObj.modules);
           commit('SET_NAME', userObj.name);
           commit('SET_AVATAR', 'default');
-          // Cookies.set('Roles', userObj.module);
-          Cookies.set('Roles', userObj.module);
+          // Cookies.set('Roles', userObj.modules);
+          Cookies.set('Roles', userObj.modules);
           Cookies.set('Name', userObj.name);
           Cookies.set('Avatar', 'default');
-          // resolve(userObj.module);
+          // resolve(userObj.modules);
           resolve();
         }).catch(error => {
           reject(error);

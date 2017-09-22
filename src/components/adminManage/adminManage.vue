@@ -372,7 +372,7 @@
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
               resetPassword(this.openId).then(response => {
-                if (response.data.code === 1) {
+                if (response.data.code === '1') {
                   done();
                   this.$message({
                     type: 'info',
@@ -438,7 +438,7 @@
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
               stopAccount(this.openId).then(response => {
-                if (response.data.code === 1) {
+                if (response.data.code === '1') {
                   done();
                   this.$message({
                     type: 'info',
@@ -480,11 +480,11 @@
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
               startAccount(this.openId).then(response => {
-                if (response.data.code === 1) {
+                if (response.data.code === '1') {
                   done();
                   this.$message({
                     type: 'info',
-                    message: '删除成功！'
+                    message: '启用成功！'
                   });
                   setTimeout(() => {
                     instance.confirmButtonLoading = false;
@@ -522,7 +522,7 @@
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
               deleteAccount(this.openId).then(response => {
-                if (response.data.code === 1) {
+                if (response.data.code === '1') {
                   done();
                   this.$message({
                     type: 'info',
@@ -558,7 +558,8 @@
         searchRoleList('', 99999, 1).then(response => {
           this.roleList = [];
           response.data.result.content.forEach(item => {
-            item.module = JSON.parse(item.module);
+//            console.log(item.modules)
+//            item.modules = JSON.parse(item.modules);
             const role = new Role(item)
             this.roleList.push(role)
           })
@@ -576,9 +577,10 @@
 //              item.role = '客服'
 //            }
             const rolesNameList = []
+            console.log(111)
             this.roleList.forEach(item2 => {
               item.roles.forEach(item3 => {
-                if (item3 === item2.id) {
+                if (item3.id === item2.id) {
                   rolesNameList.push(item2.name)
                 }
               })

@@ -53,9 +53,9 @@ export function catchLog(id) {
   });
 }
 
-export function boxSearch(queryKey, deviceType, deviceStatus, earliestTime, latestTime, size, offset) {
+export function boxSearch(queryKey, deviceStatus, earliestTime, latestTime, size, offset) {
   return fetch({
-    url: `/ops/devices/?queryKey=${queryKey}&deviceType=${deviceType}&deviceStatus=${deviceStatus}&earliestTime=${earliestTime}&latestTime=${latestTime}&size=${size}&currentPage=${offset}`,
+    url: `/ops/devices/?queryKey=${queryKey}&deviceStatus=${deviceStatus}&earliestTime=${earliestTime}&latestTime=${latestTime}&size=${size}&currentPage=${offset}`,
     method: 'get'
   });
 }

@@ -32,7 +32,9 @@ router.beforeEach((to, from, next) => {
         // })
         store.dispatch('GetInfo').then(res => {
           // const roles = res.data.result.role;
-          if (res === undefined || res === -1) {
+          console.log(res)
+          if (res === undefined || res === -1 || res === 'undefined'
+          ) {
             store.dispatch('FedLogOut')
             next({ path: '/login' });
           } else {

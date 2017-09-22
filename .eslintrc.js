@@ -252,7 +252,7 @@ module.exports = {
     // enforce consistent spacing around * operators in generator functions
     'generator-star-spacing': ['error', 'after'],
 
-    // disallow duplicate module imports
+    // disallow duplicate modules imports
     'no-duplicate-imports': 'error',
 
     // disallow unnecessary computed property keys in object literals

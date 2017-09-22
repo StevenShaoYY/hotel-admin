@@ -11,14 +11,14 @@
           </el-input>
         </el-col>
         <el-col :span="12">
-          <el-select v-model="boxTypeSelected" placeholder="按设备类型筛选">
-            <el-option
-              v-for="item in boxType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <!--<el-select v-model="boxTypeSelected" placeholder="按设备类型筛选">-->
+            <!--<el-option-->
+              <!--v-for="item in boxType"-->
+              <!--:key="item.value"-->
+              <!--:label="item.label"-->
+              <!--:value="item.value">-->
+            <!--</el-option>-->
+          <!--</el-select>-->
           <el-select v-model="boxStatusSelected" placeholder="按设备状态筛选">
             <el-option
               v-for="item in boxStatus"
@@ -159,19 +159,19 @@
         boxList: [],
         selectBoxList: [],
         searchBoxInput: '',
-        boxTypeSelected: '',
+//        boxTypeSelected: '',
         boxStatusSelected: '',
         dateRangeSelected: ['', ''],
-        boxType: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '登记盒子'
-        }, {
-          value: '2',
-          label: '查验终端'
-        }],
+//        boxType: [{
+//          value: '0',
+//          label: '全部'
+//        }, {
+//          value: '1',
+//          label: '登记盒子'
+//        }, {
+//          value: '2',
+//          label: '查验终端'
+//        }],
         boxStatus: [{
           value: '0',
           label: '全部'
@@ -253,7 +253,8 @@
       },
       searchBox() {
         boxSearch(this.searchBoxInput
-          , this.boxTypeSelected
+//          , this.boxTypeSelected
+//          , ''
           , this.boxStatusSelected
           , dateFormat(this.dateRangeSelected[0])
           , dateFormat(this.dateRangeSelected[1])
@@ -317,7 +318,7 @@
         } else {
           queryParams = {
             queryKey: this.searchBoxInput,
-            deviceType: this.boxTypeSelected,
+//            deviceType: this.boxTypeSelected,
             deviceStatus: this.boxStatusSelected,
             earliestTime: dateFormat(this.dateRangeSelected[0]),
             latestTime: dateFormat(this.dateRangeSelected[1])
@@ -344,7 +345,7 @@
         } else {
           queryParams = {
             queryKey: this.searchBoxInput,
-            deviceType: this.boxTypeSelected,
+//            deviceType: this.boxTypeSelected,
             deviceStatus: this.boxStatusSelected,
             earliestTime: dateFormat(this.dateRangeSelected[0]),
             latestTime: dateFormat(this.dateRangeSelected[1])

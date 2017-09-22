@@ -37,7 +37,7 @@ var login = appData.login;
 //     username: 'shaojunyan',
 //     name: '邵俊彦',
 //     roles: [1, 2],
-//     module: ['a', 'b', 'c', 'd'],
+//     modules: ['a', 'b', 'c', 'd'],
 //     status: 1,
 //     remark: 'asdada',
 //     modifyPerson: 'shao俊彦',
@@ -79,13 +79,13 @@ var login = appData.login;
 //   }
 // });
 
-apiRoutes.get('/admin/logout', function (req, res) {
-
-    res.json({
-      code: '1',
-      message: '登出成功！'
-    });
-});
+// apiRoutes.get('/admin/logout', function (req, res) {
+//
+//     res.json({
+//       code: '1',
+//       message: '登出成功！'
+//     });
+// });
 
 // apiRoutes.get('/statistics', function (req, res) {
 //   res.json({
@@ -629,7 +629,7 @@ apiRoutes.get('/admin/logout', function (req, res) {
 //     username: 'shaojunyan',
 //     name: '邵俊彦',
 //     roles: [1, 2],
-//     module: [1, 2, 3],
+//     modules: [1, 2, 3],
 //     status: 1,
 //     remark: 'asdada',
 //     modifyPerson: 'shao俊彦',
@@ -659,7 +659,7 @@ apiRoutes.get('/admin/logout', function (req, res) {
 //     username: 'shaojunyan',
 //     name: '邵俊彦',
 //     roles: [1, 2],
-//     module: [1, 2, 3],
+//     modules: [1, 2, 3],
 //     status: 1,
 //     remark: 'asdada',
 //     modifyPerson: 'shao俊彦',
@@ -679,7 +679,7 @@ apiRoutes.get('/admin/logout', function (req, res) {
 //     username: 'shaojunyan',
 //     name: '邵俊彦',
 //     roles: [1, 2],
-//     module: [1, 2, 3],
+//     modules: [1, 2, 3],
 //     status: 1,
 //     remark: 'asdada',
 //     modifyPerson: 'shao俊彦',
@@ -745,7 +745,7 @@ apiRoutes.get('/admin/logout', function (req, res) {
 //     var obj = {
 //       id: 1,
 //       name: '管理员',
-//       module: '[{"id":"1","name":"DEVICE:QUERY","pid":"123"},{"id":"2","name":"DEVICE:IMPORT","pid":"123"},{"id":"3","name":"DEVICE:CANCEL","pid":"123"},{"id":"4","name":"MESSAGE:QUERY","pid":"123"},{"id":"5","name":"MESSAGE:DETAIL","pid":"123"}]',
+//       modules: '[{"id":"1","name":"DEVICE:QUERY","pid":"123"},{"id":"2","name":"DEVICE:IMPORT","pid":"123"},{"id":"3","name":"DEVICE:CANCEL","pid":"123"},{"id":"4","name":"MESSAGE:QUERY","pid":"123"},{"id":"5","name":"MESSAGE:DETAIL","pid":"123"}]',
 //       remark: '所有权限',
 //       modifyPerson: '管理员1',
 //       updateTime: '2017-04-06 11:41:05'

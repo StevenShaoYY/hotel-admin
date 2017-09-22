@@ -590,6 +590,7 @@
       margin-top 10px
       margin-bottom 20px
     .dialog_radio_wrapper
+      margin-left 0px
       text-align center
     .dialog_select_wrapper
       margin-top:30px

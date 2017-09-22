@@ -15,7 +15,7 @@ export default class AdminManager {
     this.username = username
     this.name = name
     this.roles = roles
-    this.module = module
+    this.modules = module
     this.status = status
     this.remark = remark
     this.modifyPerson = modifyPerson
